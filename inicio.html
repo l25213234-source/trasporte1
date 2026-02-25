@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Transport | Tecnología al Alcance de Todos</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        :root {
+            --primary: #12b0a6;
+            --dark: #111827;
+            --light: #f9fafb;
+        }
+
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--light); color: #333; }
+
+        /* Hero con efecto de profundidad */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), 
+                        url("taxi.jpeg"); 
+            background-size: cover;
+            background-position: center;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 { 
+            font-size: clamp(3rem, 8vw, 5rem); 
+            margin-bottom: 10px; 
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-badge {
+            background: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            background: white;
+            padding: 30px;
+            max-width: 1000px;
+            margin: -50px auto 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-item h4 { color: var(--primary); font-size: 2rem; margin: 0; }
+        .stat-item p { color: #666; margin: 5px 0 0; font-weight: 500; }
+
+        /* Grid de Trabajo Mejorado */
+        .work-section { padding: 60px 20px; max-width: 1200px; margin: auto; }
+
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .work-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: left;
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .work-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--primary);
+        }
+
+        .work-card i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .work-card h3 { color: var(--dark); margin-bottom: 15px; font-size: 1.4rem; }
+        .work-card p { color: #666; line-height: 1.6; }
+
+        /* Sección de Info Extra */
+        .extra-info {
+            background: var(--dark);
+            color: white;
+            padding: 80px 20px;
+            margin-top: 50px;
+            border-radius: 50px 50px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="inicio.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="app.html">App</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="soporte.html">SOPORTE</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-badge">Tijuana, B.C.</div>
+        <h1>Digital Transport</h1>
+        <p style="font-size: 1.8rem; font-weight: 300; max-width: 700px;">
+            Tecnología al alcance de todos
+        </p>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <h4>+50</h4>
+            <p>Rutas Digitalizadas</p>
+        </div>
+        <div class="stat-item">
+            <h4>24/7</h4>
+            <p>Monitoreo de Tráfico</p>
+        </div>
+        <div class="stat-item" style="border:none">
+            <h4>-30%</h4>
+            <p>Tiempo de Espera</p>
+        </div>
+    </div>
+
+    <main class="work-section">
+        <h2 style="font-size: 2.8rem; color: var(--dark); text-align: center;">Nuestro Trabajo</h2>
+        <p style="max-width: 700px; margin: 15px auto; color: #777; text-align: center; font-size: 1.2rem;">
+            No solo mostramos mapas, creamos una infraestructura digital para que el transporte público de Tijuana sea digno y eficiente.
+        </p>
+
+        <div class="work-grid">
+            <div class="work-card">
+                <span style="font-size: 3rem;">📍</span>
+                <h3>Mapeo de Precisión</h3>
+                <p>Ubicamos cada parada de los Taxis Rojos, Guindas y Verde y Crema. Cubrimos desde la Zona Centro hasta las periferias como Natura y El Niño.</p>
+            </div>
+            
+            <div class="work-card">
+                <span style="font-size: 3rem;">⚡</span>
+                <h3>Optimización en Vivo</h3>
+                <p>Analizamos las arterias principales como el Blvd. Agua Caliente y Vía Rápida para sugerirte rutas alternas cuando hay tráfico pesado.</p>
+            </div>
+            
+            <div class="work-card">
+                <span style="font-size: 3rem;">💰</span>
+                <h3>Economía Ciudadana</h3>
+                <p>Nuestra misión es ayudarte a ahorrar dinero. Te indicamos el transbordo exacto para que no pagues pasajes de más.</p>
+            </div>
+        </div>
+    </main>
+
+    <section class="extra-info">
+        <div style="max-width: 900px; margin: auto; text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Llevando el transporte al futuro</h2>
+            <p style="font-size: 1.2rem; opacity: 0.8; line-height: 1.8;">
+                 nuestro compromiso ha sido la calidad y el servicio. Hoy, Digital Transport utiliza algoritmos avanzados para que ningún tijuanense se quede sin saber qué taxi tomar.
+            </p>
+            <br>
+            <a href="app.html" style="background: var(--primary); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px;">PROBAR LA APP AHORA</a>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Soporte Experto | Digital Transport</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        body { background: #f0f2f5; margin: 0; font-family: 'Inter', sans-serif; }
+        
+        .chat-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #111827;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            border: 1px solid #374151;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #12b0a6;
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ai-status { display: flex; align-items: center; gap: 10px; }
+        .dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
+
+        #chat-window {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #1f2937;
+        }
+
+        .msg { padding: 12px 18px; border-radius: 18px; max-width: 85%; font-size: 0.95rem; line-height: 1.5; animation: fadeInUp 0.3s ease; }
+        .msg.ai { background: #374151; color: #e5e7eb; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #4b5563; }
+        .msg.user { background: #12b0a6; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+
+        .chat-input-area { padding: 20px; background: #111827; display: flex; gap: 12px; }
+        input { flex: 1; padding: 15px; border-radius: 12px; border: none; background: #374151; color: white; outline: none; }
+        button { background: #12b0a6; border: none; padding: 0 25px; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="inicio.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="app.html">App</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="soporte.html" style="color:#12b0a6">Soporte</a>
+        
+    </nav>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="ai-status">
+                <div class="dot"></div>
+                <strong>Sistema Digital Transport (IA)</strong>
+            </div>
+            <span style="font-size: 0.8rem; opacity: 0.8;">Base de Datos: Tijuana 2026</span>
+        </div>
+
+        <div id="chat-window">
+            <div class="msg ai">
+                ¡Hola! Tengo acceso a todas las rutas oficiales de Tijuana. <br><br>
+                Dime a dónde quieres ir (ejemplo: <b>"¿Cómo voy al Centro desde Otay?"</b>) y te diré el costo y tiempo estimado.
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Escribe tu origen y destino..." onkeypress="handleKey(event)">
+            <button onclick="sendMessage()">CONSULTAR</button>
+        </div>
+    </div>
+
+    <script>
+        // LA MISMA BASE DE DATOS DE TU APP
+        const puntosTJ = { 
+            "centro": { r: "Taxi Rojo", t: "15", c: "15" }, 
+            "otay": { r: "Taxi Guinda", t: "25", c: "15" },
+            "playas": { r: "Taxi Azul", t: "20", c: "18" },
+            "rio": { r: "Taxi Guinda", t: "10", c: "15" },
+            "natura": { r: "Camión Natura", t: "70", c: "18" },
+            "tomas aquino": { r: "Taxi Guinda/Verde", t: "15", c: "15" },
+            "tecnologico": { r: "Taxi Guinda/Verde", t: "15", c: "15" }
+        };
+
+        const chatWindow = document.getElementById('chat-window');
+        const userInput = document.getElementById('userInput');
+
+        function handleKey(e) { if (e.key === 'Enter') sendMessage(); }
+
+        function sendMessage() {
+            const text = userInput.value.trim().toLowerCase();
+            if (!text) return;
+
+            addMessage(userInput.value, 'user');
+            userInput.value = '';
+
+            setTimeout(() => {
+                let foundDest = null;
+                // Buscamos si el usuario mencionó algún destino de nuestra lista
+                for (let lugar in puntosTJ) {
+                    if (text.includes(lugar)) {
+                        foundDest = puntosTJ[lugar];
+                        break;
+                    }
+                }
+
+                let response = "";
+                if (foundDest) {
+                    response = `Para llegar a esa zona, debes tomar el <b>${foundDest.r}</b>. <br><br>` +
+                               `💵 <b>Costo:</b> ${foundDest.c} pesos <br>` +
+                               `🕒 <b>Tiempo aprox:</b> ${foundDest.t} minutos. <br><br>` +
+                               `Recuerda que en horas pico el tráfico puede aumentar el tiempo.`;
+                } else if (text.includes("mision") || text.includes("objetivo")) {
+                    response = "Nuestra misión es satisfacer la necesidad de moverse de forma eficaz y ahorrar dinero.";
+                } else if (text.includes("vision")) {
+                    response = "Nuestra visión es ser líderes en soluciones de movilidad urbana en México.";
+                } else {
+                    response = "No reconozco ese destino todavía. Intenta con: Centro, Otay, Rio, Playas o Natura. ¡Estamos actualizando más rutas!";
+                }
+
+                addMessage(response, 'ai');
+            }, 800);
+        }
+
+        function addMessage(text, side) {
+            const div = document.createElement('div');
+            div.className = `msg ${side}`;
+            div.innerHTML = text;
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+    </script>
+</body>
+</html>

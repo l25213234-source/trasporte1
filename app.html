@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>App - Digital Transport</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        :root { 
+            --brand-color: #12b0a6; 
+            --dark-bg: #111827;
+            --white: #ffffff;
+            --gold: #f1c40f;
+            --card-bg: #ffffff;
+            --text-main: #374151;
+            --border-color: rgba(0,0,0,0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+
+        #loader-wrapper {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #111827;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        .loader-logo {
+            color: var(--brand-color);
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(18, 176, 166, 0.2);
+            border-top: 3px solid var(--brand-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-hidden { opacity: 0; visibility: hidden; }
+
+        #app-container { height: 100vh; display: flex; flex-direction: column; background: #f3f4f6; border-top: 5px solid var(--brand-color); overflow: hidden; }
+        @media (min-width: 768px) { #app-container { flex-direction: row; } }
+
+        .sidebar { width: 100%; max-width: 380px; background: white; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 5px 0 15px rgba(0,0,0,0.1); height: 100%; }
+
+        .top-menu { display: flex; gap: 5px; margin-bottom: 15px; }
+        .btn-menu { flex: 1; padding: 8px 2px; border-radius: 8px; border: 1px solid var(--border-color); background: #f9fafb; font-size: 0.65rem; font-weight: bold; cursor: pointer; transition: 0.2s; }
+
+        .btn-garita-pro { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+        .btn-sos { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
+
+        .counter-badge { background: #e0f211; color: #111; padding: 8px; border-radius: 10px; font-weight: bold; font-size: 0.8rem; text-align: center; margin-bottom: 15px; border: 1px solid #333; }
+        .card-app { background: var(--white); border: 1px solid var(--border-color); padding: 15px; border-radius: 14px; margin-bottom: 12px; }
+
+        .btn-search { width: 100%; padding: 12px; border: none; border-radius: 10px; background: var(--brand-color); color: white; font-weight: bold; cursor: pointer; }
+        .btn-search:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        .btn-pro-style { width: 100%; padding: 12px; border: none; border-radius: 10px; background: #374151; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+        .comment-list { font-size: 0.8rem; max-height: 100px; overflow-y: auto; background: #f8fafc; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed #cbd5e1; }
+        .comment-item { margin-bottom: 5px; }
+
+        .map-wrapper { flex-grow: 1; position: relative; height: 100%; }
+        #map { height: 100%; width: 100%; }
+
+        .blur-info { filter: blur(5px); opacity: 0.5; transition: 0.3s; }
+    </style>
+</head>
+<body>
+
+<div id="loader-wrapper">
+    <div class="loader-logo">Digital Transport</div>
+    <div class="spinner"></div>
+</div>
+
+<div id="app-container">
+    <aside class="sidebar">
+
+        <div class="top-menu">
+            <button class="btn-menu" onclick="toggleDarkMode()">🌙 NOCHE</button>
+            <button class="btn-menu btn-garita-pro" onclick="alert('San Ysidro: 40m\nOtay: 25m\nEstatus: Fluido')">🌉 GARITAS</button>
+            <button class="btn-menu" onclick="alert('Digital Transport V4.0\nTijuana, B.C.')">ℹ️ INFO</button>
+            <button class="btn-menu btn-sos" onclick="alert('🚨 SEÑAL SOS ENVIADA A CENTRAL')">🆘 SOS</button>
+        </div>
+
+        <h1 style="color: var(--brand-color); font-size: 1.5rem; margin-bottom: 10px;">Digital Transport</h1>
+        <div id="status-badge" class="counter-badge">⚡ Créditos: <span id="creditos-num">3</span></div>
+
+        <div class="card-app">
+            <h3 style="font-size: 0.75rem; color: var(--brand-color); margin-bottom: 10px;">TRAZAR RUTA</h3>
+            <input type="text" id="origenInput" placeholder="📍 Origen" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; border:1px solid #ddd;">
+            <input type="text" id="destinoInput" placeholder="🏁 Destino" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; border:1px solid #ddd;">
+            <button class="btn-search" id="btnBusqueda" onclick="buscarRuta()">BUSCAR</button>
+        </div>
+
+        <div class="card-app">
+            <h3>Detalles</h3>
+            <p>🚌 Unidad: <span id="val-ruta">--</span></p>
+            <p>🕒 Tiempo: <span id="val-tiempo">--</span></p>
+            <p>💵 Costo: <span id="val-costo">--</span></p>
+        </div>
+
+    </aside>
+
+    <main class="map-wrapper">
+        <div id="map"></div>
+    </main>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    const loader = document.getElementById('loader-wrapper');
+    setTimeout(() => { loader.classList.add('loader-hidden'); }, 1500);
+});
+
+var map = L.map('map').setView([32.5149, -117.0382], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+function buscarRuta(){
+    alert("Tu app funcional ya está activa 🚀");
+}
+
+function toggleDarkMode(){
+    const side = document.querySelector('.sidebar');
+    side.style.background = side.style.background === 'rgb(17, 24, 39)' ? 'white' : '#111827';
+    side.style.color = side.style.color === 'white' ? 'black' : 'white';
+}
+</script>
+
+</body>
+</html>
