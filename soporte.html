@@ -2,149 +2,292 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Soporte Experto | Digital Transport</title>
-    <link rel="stylesheet" href="estilos.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte | Digital Transport</title>
     <style>
-        body { background: #f0f2f5; margin: 0; font-family: 'Inter', sans-serif; }
-        
-        .chat-container {
-            max-width: 700px;
-            margin: 40px auto;
-            background: #111827;
-            border-radius: 25px;
+        :root {
+            --primary: #00c3ff;
+            --dark-bg: #0b1c2d;
+            --gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --white: #ffffff;
+            /* Colores Menú Rúbrica */
+            --c-inicio: #3b82f6;
+            --c-nosotros: #10b981;
+            --c-app: #f59e0b;
+            --c-contacto: #ef4444;
+            --c-soporte: #00c3ff;
+            --c-publicaciones: #ec4899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+
+        body {
+            background: var(--gradient);
+            color: var(--white);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 600px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-            border: 1px solid #374151;
+        }
+
+        /* ====== HEADER & NAV (RÚBRICA) ====== */
+        header {
+            background: var(--dark-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 195, 255, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-img { width: 40px; height: 40px; border-radius: 8px; background: white; padding: 2px; }
+        .logo-text { color: white; font-size: 1.2rem; font-weight: 800; letter-spacing: -0.5px; }
+
+        nav { display: flex; gap: 8px; }
+        nav a {
+            color: white; text-decoration: none; font-size: 11px;
+            font-weight: 800; padding: 10px 14px; border-radius: 6px;
+            text-transform: uppercase; transition: 0.3s;
+        }
+        nav a:hover { transform: translateY(-2px); filter: brightness(1.2); }
+        .active { border: 2px solid white; box-shadow: 0 0 10px var(--primary); }
+
+        /* ====== SECCIÓN DE AYUDA RÁPIDA (DISEÑO CREATIVO) ====== */
+        .support-hero {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+        .support-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .support-hero p { opacity: 0.8; margin-bottom: 30px; }
+
+        .quick-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+        .q-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .q-card:hover { 
+            background: rgba(0, 195, 255, 0.2); 
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        .q-card i { font-size: 2rem; display: block; margin-bottom: 10px; }
+
+        /* ====== CHATBOT CONTAINER ====== */
+        .chat-container {
+            flex: 1;
+            max-width: 800px;
+            width: 95%;
+            margin: 0 auto 30px;
+            background: rgba(11, 28, 45, 0.95);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .chat-header {
-            background: #12b0a6;
-            padding: 20px;
-            color: white;
+            background: var(--primary);
+            color: var(--dark-bg);
+            padding: 15px 25px;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
         }
 
-        .ai-status { display: flex; align-items: center; gap: 10px; }
-        .dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
-
-        #chat-window {
+        .chat-box {
             flex: 1;
             padding: 25px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            background: #1f2937;
+            height: 400px;
         }
 
-        .msg { padding: 12px 18px; border-radius: 18px; max-width: 85%; font-size: 0.95rem; line-height: 1.5; animation: fadeInUp 0.3s ease; }
-        .msg.ai { background: #374151; color: #e5e7eb; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #4b5563; }
-        .msg.user { background: #12b0a6; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .message {
+            max-width: 80%;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            animation: slideUp 0.3s ease;
+        }
 
-        .chat-input-area { padding: 20px; background: #111827; display: flex; gap: 12px; }
-        input { flex: 1; padding: 15px; border-radius: 12px; border: none; background: #374151; color: white; outline: none; }
-        button { background: #12b0a6; border: none; padding: 0 25px; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .bot {
+            background: #1a3a5a;
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .user {
+            background: var(--primary);
+            color: var(--dark-bg);
+            font-weight: 600;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        /* INPUT AREA */
+        .input-area {
+            display: flex;
+            padding: 20px;
+            background: #081420;
+            gap: 15px;
+        }
+
+        input {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 30px;
+            background: #1a3a5a;
+            color: white;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 0 30px;
+            border: none;
+            border-radius: 30px;
+            background: var(--primary);
+            color: var(--dark-bg);
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { filter: brightness(1.2); transform: scale(1.05); }
+
+        @media(max-width: 768px) {
+            nav { display: none; }
+            .support-hero h1 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
+
+<header>
+    <a href="taxi.jpg" class="logo-container">
+        <img src="logo.png" alt="Logo" class="logo-img"> <div class="logo-text">Digital Transport</div>
+    </a>
     <nav>
-        <a href="index.html">Inicio</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="app.html">App</a>
-        <a href="contacto.html">Contacto</a>
-        <a href="soporte.html" style="color:#12b0a6">Soporte</a>
-        
+        <a href="index.html" style="background:var(--c-inicio)">Inicio</a>
+        <a href="nosotros.html" style="background:var(--c-nosotros)">Nosotros</a>
+        <a href="app.html" style="background:var(--c-app)">App</a>
+        <a href="contacto.html" style="background:var(--c-contacto)">Contacto</a>
+        <a href="soporte.html" class="active" style="background:var(--c-soporte)">Soporte</a>
+        <a href="publicaciones.html" style="background:var(--c-publicaciones)">Publicaciones</a>
     </nav>
+</header>
 
-    <div class="chat-container">
-        <div class="chat-header">
-            <div class="ai-status">
-                <div class="dot"></div>
-                <strong>Sistema Digital Transport (IA)</strong>
-            </div>
-            <span style="font-size: 0.8rem; opacity: 0.8;">Base de Datos: Tijuana 2026</span>
-        </div>
+<div class="support-hero">
+    <h1>¿En qué podemos ayudarte?</h1>
+    <p>Centro de Ayuda Inteligente de Digital Transport</p>
+</div>
 
-        <div id="chat-window">
-            <div class="msg ai">
-                ¡Hola! Tengo acceso a todas las rutas oficiales de Tijuana. <br><br>
-                Dime a dónde quieres ir (ejemplo: <b>"¿Cómo voy al Centro desde Otay?"</b>) y te diré el costo y tiempo estimado.
-            </div>
-        </div>
+<div class="quick-cards">
+    <div class="q-card" onclick="autoPregunta('¿Cuáles son las rutas?')">
+        <i>📍</i>
+        <strong>Rutas</strong>
+        <p>Ver cobertura en Tijuana</p>
+    </div>
+    <div class="q-card" onclick="autoPregunta('¿Cuál es el precio?')">
+        <i>💵</i>
+        <strong>Tarifas</strong>
+        <p>Costos actualizados</p>
+    </div>
+    <div class="q-card" onclick="autoPregunta('¿Qué taxis hay?')">
+        <i>🚖</i>
+        <strong>Transporte</strong>
+        <p>Tipos de unidades</p>
+    </div>
+</div>
 
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Escribe tu origen y destino..." onkeypress="handleKey(event)">
-            <button onclick="sendMessage()">CONSULTAR</button>
+<div class="chat-container">
+    <div class="chat-header">
+        <span>🤖</span> Asistente Digital Transport
+    </div>
+    <div class="chat-box" id="chat">
+        <div class="message bot">
+            👋 <b>¡Hola! Bienvenido a Soporte.</b><br>
+            Soy tu guía de transporte en Tijuana. ¿Tienes dudas sobre rutas, precios o unidades? ¡Escríbeme!
         </div>
     </div>
 
-    <script>
-        // LA MISMA BASE DE DATOS DE TU APP
-        const puntosTJ = { 
-            "centro": { r: "Taxi Rojo", t: "15", c: "15" }, 
-            "otay": { r: "Taxi Guinda", t: "25", c: "15" },
-            "playas": { r: "Taxi Azul", t: "20", c: "18" },
-            "rio": { r: "Taxi Guinda", t: "10", c: "15" },
-            "natura": { r: "Camión Natura", t: "70", c: "18" },
-            "tomas aquino": { r: "Taxi Guinda/Verde", t: "15", c: "15" },
-            "tecnologico": { r: "Taxi Guinda/Verde", t: "15", c: "15" }
-        };
+    <div class="input-area">
+        <input type="text" id="input" placeholder="Escribe tu mensaje aquí..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button onclick="sendMessage()">ENVIAR</button>
+    </div>
+</div>
 
-        const chatWindow = document.getElementById('chat-window');
-        const userInput = document.getElementById('userInput');
+<script>
+function autoPregunta(texto) {
+    document.getElementById("input").value = texto;
+    sendMessage();
+}
 
-        function handleKey(e) { if (e.key === 'Enter') sendMessage(); }
+function sendMessage(){
+    let input = document.getElementById("input");
+    let message = input.value.trim().toLowerCase();
+    if(message === "") return;
 
-        function sendMessage() {
-            const text = userInput.value.trim().toLowerCase();
-            if (!text) return;
+    let chat = document.getElementById("chat");
 
-            addMessage(userInput.value, 'user');
-            userInput.value = '';
+    // Mensaje usuario
+    let userMsg = document.createElement("div");
+    userMsg.className = "message user";
+    userMsg.innerText = input.value;
+    chat.appendChild(userMsg);
 
-            setTimeout(() => {
-                let foundDest = null;
-                // Buscamos si el usuario mencionó algún destino de nuestra lista
-                for (let lugar in puntosTJ) {
-                    if (text.includes(lugar)) {
-                        foundDest = puntosTJ[lugar];
-                        break;
-                    }
-                }
+    // Respuesta inteligente
+    let botResponse = document.createElement("div");
+    botResponse.className = "message bot";
 
-                let response = "";
-                if (foundDest) {
-                    response = `Para llegar a esa zona, debes tomar el <b>${foundDest.r}</b>. <br><br>` +
-                               `💵 <b>Costo:</b> ${foundDest.c} pesos <br>` +
-                               `🕒 <b>Tiempo aprox:</b> ${foundDest.t} minutos. <br><br>` +
-                               `Recuerda que en horas pico el tráfico puede aumentar el tiempo.`;
-                } else if (text.includes("mision") || text.includes("objetivo")) {
-                    response = "Nuestra misión es satisfacer la necesidad de moverse de forma eficaz y ahorrar dinero.";
-                } else if (text.includes("vision")) {
-                    response = "Nuestra visión es ser líderes en soluciones de movilidad urbana en México.";
-                } else {
-                    response = "No reconozco ese destino todavía. Intenta con: Centro, Otay, Rio, Playas o Natura. ¡Estamos actualizando más rutas!";
-                }
+    if(message.includes("ruta") || message.includes("donde")){
+        botResponse.innerHTML = "📍 <b>Rutas:</b> Cubrimos Zona Río, Centro, 5 y 10, Otay, Playas, El Florido y Natura. ¿Alguna zona en específico?";
+    }
+    else if(message.includes("precio") || message.includes("costo") || message.includes("cuanto")){
+        botResponse.innerHTML = "💵 <b>Tarifas:</b> Cortas ($15-$18 MXN) y Largas ($23 MXN). Los precios están regulados.";
+    }
+    else if(message.includes("taxi")){
+        botResponse.innerHTML = "🚖 <b>Servicios:</b> Taxis Rojos (Ruta), Guindas, Blanco/Negro y transporte masivo.";
+    }
+    else {
+        botResponse.innerHTML = "🤖 Entendido. Para temas técnicos, también puedes contactarnos en soporte@digitaltransport.mx";
+    }
 
-                addMessage(response, 'ai');
-            }, 800);
-        }
+    setTimeout(()=>{ 
+        chat.appendChild(botResponse); 
+        chat.scrollTop = chat.scrollHeight; 
+    }, 400);
 
-        function addMessage(text, side) {
-            const div = document.createElement('div');
-            div.className = `msg ${side}`;
-            div.innerHTML = text;
-            chatWindow.appendChild(div);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-    </script>
+    input.value="";
+}
+</script>
+
 </body>
-
 </html>
