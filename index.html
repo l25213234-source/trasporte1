@@ -1,182 +1,188 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Digital Transport | Tecnología al Alcance de Todos</title>
-    <link rel="stylesheet" href="estilos.css">
-    <style>
-        :root {
-            --primary: #12b0a6;
-            --dark: #111827;
-            --light: #f9fafb;
-        }
+<meta charset="UTF-8">
+<title>Digital Transport | Tecnología al Alcance de Todos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--light); color: #333; }
+<style>
+    :root {
+        --primary: #12b0a6;
+        --dark: #0b1c2d;
+        /* Colores del menú según tu diseño */
+        --c-inicio: #3b82f6;
+        --c-nosotros: #10b981;
+        --c-app: #f59e0b;
+        --c-contacto: #ef4444;
+        --c-soporte: #8b5cf6;
+        --c-publicaciones: #ec4899;
+    }
 
-        /* Hero con efecto de profundidad */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), 
-                        url("taxi.jpeg"); 
-            background-size: cover;
-            background-position: center;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 0 20px;
-        }
+    body { margin:0; font-family:'Inter', sans-serif; background:#f9fafb; color: #374151; }
 
-        .hero h1 { 
-            font-size: clamp(3rem, 8vw, 5rem); 
-            margin-bottom: 10px; 
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-        }
+    /* ====== NAVEGACIÓN PROFESIONAL ====== */
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 40px;
+        background: var(--dark);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
 
-        .hero-badge {
-            background: var(--primary);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-        /* Stats Bar */
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            background: white;
-            padding: 30px;
-            max-width: 1000px;
-            margin: -50px auto 50px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            text-align: center;
-        }
+    /* Tu logo de image_a98421 */
+    .logo-container img {
+        width: 45px;
+        height: 45px;
+        border-radius: 8px;
+        background: white;
+        padding: 2px;
+        object-fit: contain;
+    }
 
-        .stat-item h4 { color: var(--primary); font-size: 2rem; margin: 0; }
-        .stat-item p { color: #666; margin: 5px 0 0; font-weight: 500; }
+    .menu-links { display: flex; gap: 10px; }
 
-        /* Grid de Trabajo Mejorado */
-        .work-section { padding: 60px 20px; max-width: 1200px; margin: auto; }
+    .menu-links a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 800;
+        transition: 0.3s;
+        text-transform: uppercase;
+    }
 
-        .work-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
+    /* Colores de botones solicitados */
+    .btn-inicio { background: var(--c-inicio); }
+    .btn-nosotros { background: var(--c-nosotros); }
+    .btn-app { background: var(--c-app); }
+    .btn-contacto { background: var(--c-contacto); }
+    .btn-soporte { background: var(--c-soporte); }
+    .btn-publicaciones { background: var(--c-publicaciones); }
 
-        .work-card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: left;
-            transition: all 0.3s ease;
-            border: 1px solid #eee;
-            position: relative;
-            overflow: hidden;
-        }
+    .menu-links a:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.2);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
 
-        .work-card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            border-color: var(--primary);
-        }
+    /* ====== HERO (FONDO SIN ZOOM EXCESIVO) ====== */
+    .hero {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), 
+                    url("taxi.jpg"); /* Nombre de archivo corregido */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        height: 75vh; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+    }
 
-        .work-card i {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            display: block;
-        }
+    .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); margin: 0; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    .hero p { font-size: 1.5rem; margin-top: 10px; font-weight: 300; }
 
-        .work-card h3 { color: var(--dark); margin-bottom: 15px; font-size: 1.4rem; }
-        .work-card p { color: #666; line-height: 1.6; }
+    /* ====== CONTENIDO ====== */
+    .container {
+        max-width: 1100px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
 
-        /* Sección de Info Extra */
-        .extra-info {
-            background: var(--dark);
-            color: white;
-            padding: 80px 20px;
-            margin-top: 50px;
-            border-radius: 50px 50px 0 0;
-        }
-    </style>
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        text-align: center;
+        border-bottom: 5px solid var(--primary);
+    }
+
+    .card h3 { color: var(--dark); margin-bottom: 15px; font-size: 1.6rem; }
+
+    footer {
+        background: var(--dark);
+        color: white;
+        text-align: center;
+        padding: 50px 20px;
+        margin-top: 80px;
+    }
+
+    @media (max-width: 1024px) {
+        nav { flex-direction: column; padding: 20px; }
+        .menu-links { flex-wrap: wrap; justify-content: center; margin-top: 15px; }
+    }
+</style>
 </head>
 <body>
-    <nav>
-        <a href="inicio.html">Inicio</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="app.html">App</a>
-        <a href="contacto.html">Contacto</a>
-        <a href="soporte.html">SOPORTE</a>
-    </nav>
 
-    <header class="hero">
-        <div class="hero-badge">Tijuana, B.C.</div>
-        <h1>Digital Transport</h1>
-        <p style="font-size: 1.8rem; font-weight: 300; max-width: 700px;">
-            Tecnología al alcance de todos
-        </p>
-    </header>
+<nav>
+    <div class="logo-container">
+        <img src="taxi.jpg" alt="Digital Transport">
+        Digital Transport
+    </div>
+    <div class="menu-links">
+        <a href="index.html" class="btn-inicio">Inicio</a>
+        <a href="nosotros.html" class="btn-nosotros">Nosotros</a>
+        <a href="app.html" class="btn-app">App</a>
+        <a href="contacto.html" class="btn-contacto">Contacto</a>
+        <a href="soporte.html" class="btn-soporte">Soporte</a>
+        <a href="publicaciones.html" class="btn-publicaciones">Publicaciones</a>
+    </div>
+</nav>
 
-    <div class="stats-bar">
-        <div class="stat-item">
-            <h4>+50</h4>
-            <p>Rutas Digitalizadas</p>
+<header class="hero">
+    <h1>Digital Transport</h1>
+    <p>Tecnología al alcance de todos en Tijuana</p>
+</header>
+
+<main class="container">
+    <div class="info-grid">
+        <div class="card">
+            <div style="font-size: 3rem;">📍</div>
+            <h3>Rutas</h3>
+            <p>Información digital de todas las rutas de taxis en la ciudad.</p>
         </div>
-        <div class="stat-item">
-            <h4>24/7</h4>
-            <p>Monitoreo de Tráfico</p>
+        <div class="card">
+            <div style="font-size: 3rem;">⚡</div>
+            <h3>Rapidez</h3>
+            <p>Optimiza tus traslados y reduce tus tiempos de espera significativamente.</p>
         </div>
-        <div class="stat-item" style="border:none">
-            <h4>-30%</h4>
-            <p>Tiempo de Espera</p>
+        <div class="card">
+            <div style="font-size: 3rem;">💰</div>
+            <h3>Economía</h3>
+            <p>Encuentra las opciones más económicas para tu bolsillo.</p>
         </div>
     </div>
+</main>
 
-    <main class="work-section">
-        <h2 style="font-size: 2.8rem; color: var(--dark); text-align: center;">Nuestro Trabajo</h2>
-        <p style="max-width: 700px; margin: 15px auto; color: #777; text-align: center; font-size: 1.2rem;">
-            No solo mostramos mapas, creamos una infraestructura digital para que el transporte público de Tijuana sea digno y eficiente.
-        </p>
-
-        <div class="work-grid">
-            <div class="work-card">
-                <span style="font-size: 3rem;">📍</span>
-                <h3>Mapeo de Precisión</h3>
-                <p>Ubicamos cada parada de los Taxis Rojos, Guindas y Verde y Crema. Cubrimos desde la Zona Centro hasta las periferias como Natura y El Niño.</p>
-            </div>
-            
-            <div class="work-card">
-                <span style="font-size: 3rem;">⚡</span>
-                <h3>Optimización en Vivo</h3>
-                <p>Analizamos las arterias principales como el Blvd. Agua Caliente y Vía Rápida para sugerirte rutas alternas cuando hay tráfico pesado.</p>
-            </div>
-            
-            <div class="work-card">
-                <span style="font-size: 3rem;">💰</span>
-                <h3>Economía Ciudadana</h3>
-                <p>Nuestra misión es ayudarte a ahorrar dinero. Te indicamos el transbordo exacto para que no pagues pasajes de más.</p>
-            </div>
-        </div>
-    </main>
-
-    <section class="extra-info">
-        <div style="max-width: 900px; margin: auto; text-align: center;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Llevando el transporte al futuro</h2>
-            <p style="font-size: 1.2rem; opacity: 0.8; line-height: 1.8;">
-                 nuestro compromiso ha sido la calidad y el servicio. Hoy, Digital Transport utiliza algoritmos avanzados para que ningún tijuanense se quede sin saber qué taxi tomar.
-            </p>
-            <br>
-            <a href="app.html" style="background: var(--primary); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px;">PROBAR LA APP AHORA</a>
-        </div>
-    </section>
+<footer>
+    <p><strong>Digital Transport © 2026</strong></p>
+    <p>Misión de San Javier 10643-400, Zona Río, Tijuana, B.C.</p>
+</footer>
 
 </body>
 </html>
