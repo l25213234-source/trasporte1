@@ -2,141 +2,264 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>App - Digital Transport</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Digital Transport - TJ PRO Elite</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: background 0.3s, color 0.3s; }
+        
         :root { 
             --brand-color: #12b0a6; 
-            --dark-bg: #111827;
-            --white: #ffffff;
+            --dark-gray: #374151; 
+            --light-bg: #f3f4f6; 
+            --white: #ffffff; 
             --gold: #f1c40f;
-            --card-bg: #ffffff;
+            --sidebar-bg: #ffffff;
             --text-main: #374151;
+            --card-bg: #ffffff;
+            --input-bg: #fafafa;
             --border-color: rgba(0,0,0,0.1);
+            --btn-pro-bg: #374151;
+            --btn-pro-text: #ffffff;
+            /* Colores Menú Rúbrica */
+            --c-inicio: #3b82f6;
+            --c-nosotros: #10b981;
+            --c-app: #f59e0b;
+            --c-contacto: #ef4444;
+            --c-soporte: #8b5cf6;
+            --c-publicaciones: #ec4899;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
 
-        #loader-wrapper {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #111827;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease, visibility 0.8s;
+        body.dark-mode {
+            --light-bg: #111827;
+            --sidebar-bg: #1f2937;
+            --text-main: #f3f4f6;
+            --white: #1f2937;
+            --card-bg: #374151;
+            --input-bg: #111827;
+            --border-color: rgba(255,255,255,0.1);
+            --btn-pro-bg: #f1c40f; 
+            --btn-pro-text: #111827;
         }
-        .loader-logo {
-            color: var(--brand-color);
-            font-size: 2.5rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
+
+        /* Ajuste para que el cuerpo use columna y permita el nav arriba */
+        body { display: flex; flex-direction: column; height: 100vh; background: var(--light-bg); overflow: hidden; color: var(--text-main); }
+
+        /* --- ESTILO DEL MENÚ GLOBAL --- */
+        .nav-global {
+            background: #111827;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10002;
+            width: 100%;
+        }
+        .logo-nav { display: flex; align-items: center; gap: 10px; color: white; font-weight: bold; font-size: 0.9rem; text-decoration: none; }
+        .logo-nav img { width: 30px; height: 30px; border-radius: 5px; background: white; padding: 2px; }
+        .nav-links { display: flex; gap: 5px; }
+        .nav-links a {
+            color: white; text-decoration: none; font-size: 0.65rem;
+            font-weight: 800; padding: 8px 12px; border-radius: 6px;
             text-transform: uppercase;
         }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(18, 176, 166, 0.2);
-            border-top: 3px solid var(--brand-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+
+        /* Contenedor principal debajo del nav */
+        .main-layout { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; width: 100%; }
+        @media (min-width: 768px) { .main-layout { flex-direction: row; } }
+
+        .top-bar {
+            display: flex; gap: 5px; padding: 10px; background: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border-color); justify-content: space-between; flex-wrap: nowrap;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loader-hidden { opacity: 0; visibility: hidden; }
+        .btn-top { 
+            flex: 1; padding: 8px 2px; border-radius: 12px; border: 1px solid var(--border-color);
+            font-weight: bold; font-size: 0.6rem; cursor: pointer; display: flex;
+            flex-direction: column; align-items: center; gap: 4px;
+            background: var(--light-bg); color: var(--text-main); min-width: 0;
+        }
 
-        #app-container { height: 100vh; display: flex; flex-direction: column; background: #f3f4f6; border-top: 5px solid var(--brand-color); overflow: hidden; }
-        @media (min-width: 768px) { #app-container { flex-direction: row; } }
+        .sidebar { width: 100%; max-width: 380px; background: var(--sidebar-bg); padding: 20px; box-shadow: 10px 0 30px rgba(0,0,0,0.05); z-index: 10; overflow-y: auto; display: flex; flex-direction: column; height: 100%; }
+        .counter-badge { background: #e0f2f1; color: var(--brand-color); padding: 8px; border-radius: 10px; font-weight: bold; font-size: 0.8rem; text-align: center; margin-bottom: 15px; border: 1px solid var(--brand-color); }
 
-        .sidebar { width: 100%; max-width: 380px; background: white; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 5px 0 15px rgba(0,0,0,0.1); height: 100%; }
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 14px; margin-bottom: 12px; }
+        h3 { font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; color: var(--brand-color); }
+        
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; margin-top: 5px; }
+        .btn-search { background: var(--brand-color); color: white; }
+        .btn-pro-style { background: var(--btn-pro-bg); color: var(--btn-pro-text); margin-top: 10px; }
+        .btn-sos { background: #ef4444 !important; color: white !important; border: none !important; }
 
-        .top-menu { display: flex; gap: 5px; margin-bottom: 15px; }
-        .btn-menu { flex: 1; padding: 8px 2px; border-radius: 8px; border: 1px solid var(--border-color); background: #f9fafb; font-size: 0.65rem; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        input, textarea { width: 100%; padding: 10px; margin-bottom: 8px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--input-bg); color: var(--text-main); outline: none; }
+        
+        #commentList { flex-grow: 1; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 10px; overflow-y: auto; }
+        .comment-item { background: rgba(128,128,128,0.1); padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--brand-color); font-size: 0.85rem; }
 
-        .btn-garita-pro { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
-        .btn-sos { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
+        .map-wrapper { flex-grow: 1; position: relative; height: 100%; background: #dfe5e9; }
+        #map { position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 1; }
 
-        .counter-badge { background: #e0f211; color: #111; padding: 8px; border-radius: 10px; font-weight: bold; font-size: 0.8rem; text-align: center; margin-bottom: 15px; border: 1px solid #333; }
-        .card-app { background: var(--white); border: 1px solid var(--border-color); padding: 15px; border-radius: 14px; margin-bottom: 12px; }
-
-        .btn-search { width: 100%; padding: 12px; border: none; border-radius: 10px; background: var(--brand-color); color: white; font-weight: bold; cursor: pointer; }
-        .btn-search:disabled { background: #94a3b8; cursor: not-allowed; }
-
-        .btn-pro-style { width: 100%; padding: 12px; border: none; border-radius: 10px; background: #374151; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
-
-        .comment-list { font-size: 0.8rem; max-height: 100px; overflow-y: auto; background: #f8fafc; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed #cbd5e1; }
-        .comment-item { margin-bottom: 5px; }
-
-        .map-wrapper { flex-grow: 1; position: relative; height: 100%; }
-        #map { height: 100%; width: 100%; }
-
-        .blur-info { filter: blur(5px); opacity: 0.5; transition: 0.3s; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 20000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--sidebar-bg); padding: 30px; border-radius: 25px; max-width: 320px; text-align: center; color: var(--text-main); }
+        .garita-info { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
     </style>
 </head>
-<body>
+<body onload="cargarApp()">
 
-<div id="loader-wrapper">
-    <div class="loader-logo">Digital Transport</div>
-    <div class="spinner"></div>
-</div>
+    <nav class="nav-global">
+        <a href="taxi.jpg" class="logo-nav">
+            <img src="taxi.jpg" alt="Logo">
+            Digital Transport
+        </a>
+        <div class="nav-links">
+            <a href="inicio.html" style="background:var(--c-inicio)">Inicio</a>
+            <a href="nosotros.html" style="background:var(--c-nosotros)">Nosotros</a>
+            <a href="app.html" style="background:var(--c-app); border: 2px solid white;">App</a>
+            <a href="contacto.html" style="background:var(--c-contacto)">Contacto</a>
+            <a href="soporte.html" style="background:var(--c-soporte)">Soporte</a>
+            <a href="publicaciones.html" style="background:var(--c-publicaciones)">Publicaciones</a>
+        </div>
+    </nav>
 
-<div id="app-container">
-    <aside class="sidebar">
-
-        <div class="top-menu">
-            <button class="btn-menu" onclick="toggleDarkMode()">🌙 NOCHE</button>
-            <button class="btn-menu btn-garita-pro" onclick="alert('San Ysidro: 40m\nOtay: 25m\nEstatus: Fluido')">🌉 GARITAS</button>
-            <button class="btn-menu" onclick="alert('Digital Transport V4.0\nTijuana, B.C.')">ℹ️ INFO</button>
-            <button class="btn-menu btn-sos" onclick="alert('🚨 SEÑAL SOS ENVIADA A CENTRAL')">🆘 SOS</button>
+    <div class="main-layout">
+        <div id="modal-acerca" class="modal" onclick="this.style.display='none'">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <h2 style="color: var(--brand-color); margin-bottom: 15px;">Digital Transport</h2>
+                <p>Versión Elite TJ PRO</p>
+                <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">Tu guía de transporte en Tijuana.</p>
+                <button class="btn btn-search" style="margin-top:15px" onclick="document.getElementById('modal-acerca').style.display='none'">CERRAR</button>
+            </div>
         </div>
 
-        <h1 style="color: var(--brand-color); font-size: 1.5rem; margin-bottom: 10px;">Digital Transport</h1>
-        <div id="status-badge" class="counter-badge">⚡ Créditos: <span id="creditos-num">3</span></div>
-
-        <div class="card-app">
-            <h3 style="font-size: 0.75rem; color: var(--brand-color); margin-bottom: 10px;">TRAZAR RUTA</h3>
-            <input type="text" id="origenInput" placeholder="📍 Origen" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; border:1px solid #ddd;">
-            <input type="text" id="destinoInput" placeholder="🏁 Destino" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; border:1px solid #ddd;">
-            <button class="btn-search" id="btnBusqueda" onclick="buscarRuta()">BUSCAR</button>
+        <div id="modal-garitas" class="modal" onclick="this.style.display='none'">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <h2 style="color: var(--brand-color); margin-bottom: 15px;">Tiempos de Garita</h2>
+                <div class="garita-info"><span> San Ysidro</span> <b>90 min</b></div>
+                <div class="garita-info"><span> Otay</span> <b>60 min</b></div>
+                <div class="garita-info" style="border:none;"><span> Ready Lane</span> <b>45 min</b></div>
+                <button class="btn btn-search" style="margin-top:15px" onclick="document.getElementById('modal-garitas').style.display='none'">CERRAR</button>
+            </div>
         </div>
 
-        <div class="card-app">
-            <h3>Detalles</h3>
-            <p>🚌 Unidad: <span id="val-ruta">--</span></p>
-            <p>🕒 Tiempo: <span id="val-tiempo">--</span></p>
-            <p>💵 Costo: <span id="val-costo">--</span></p>
-        </div>
+        <aside class="sidebar">
+            <div class="top-bar">
+                <button class="btn-top" id="theme-btn" onclick="toggleTheme()"><span>🌙</span>NOCHE</button>
+                <button class="btn-top" onclick="document.getElementById('modal-garitas').style.display='flex'"><span>🌉</span>GARITAS</button>
+                <button class="btn-top" onclick="document.getElementById('modal-acerca').style.display='flex'"><span>ℹ️</span>INFO</button>
+                <button class="btn-top btn-sos" onclick="alert(' SOS ENVIADO')"><span>🆘</span>SOS</button>
+            </div>
 
-    </aside>
+            <div style="margin-top:15px; margin-bottom: 15px;">
+                <h1 style="color: var(--brand-color); font-size: 1.5rem;">Digital Transport</h1>
+            </div>
 
-    <main class="map-wrapper">
-        <div id="map"></div>
-    </main>
-</div>
+            <div id="status-badge" class="counter-badge"> Créditos: 3</div>
 
-<script>
-window.addEventListener('load', function() {
-    const loader = document.getElementById('loader-wrapper');
-    setTimeout(() => { loader.classList.add('loader-hidden'); }, 1500);
-});
+            <div class="card">
+                <h3>Rutas Exactas</h3>
+                <input type="text" id="origenInput" placeholder=" Origen">
+                <input type="text" id="destinoInput" placeholder=" Destino">
+                <button class="btn btn-search" onclick="playClick(); buscarRuta()">TRAZAR RUTA</button>
+            </div>
 
-var map = L.map('map').setView([32.5149, -117.0382], 12);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            <div class="card">
+                <h3>Detalles</h3>
+                <p> <b>Unidad:</b> <span id="val-ruta" style="color: var(--brand-color); font-weight: bold;">--</span></p>
+                <p> <b>Tiempo:</b> <span id="val-tiempo" style="filter:blur(5px); opacity:0.5;">-- min</span></p>
+                <p> <b>Costo:</b> <span id="val-costo" style="filter:blur(5px); opacity:0.5;">-- pesos</span></p>
+                <div id="pro-banner">
+                    <button class="btn btn-pro-style" onclick="playPro(); activarPro()">ACTIVAR PRO</button>
+                </div>
+            </div>
 
-function buscarRuta(){
-    alert("Tu app funcional ya está activa 🚀");
-}
+            <div class="card" style="flex-grow: 1; display: flex; flex-direction: column;">
+                <h3>Reportes en Vivo</h3>
+                <textarea id="commentInput" rows="2" placeholder="¿Cómo está el tráfico?"></textarea>
+                <button class="btn btn-search" style="padding: 8px; font-size: 0.8rem;" onclick="agregarComentario()">PUBLICAR</button>
+                <div id="commentList"></div>
+            </div>
+        </aside>
 
-function toggleDarkMode(){
-    const side = document.querySelector('.sidebar');
-    side.style.background = side.style.background === 'rgb(17, 24, 39)' ? 'white' : '#111827';
-    side.style.color = side.style.color === 'white' ? 'black' : 'white';
-}
-</script>
+        <main class="map-wrapper">
+            <div id="map"></div>
+        </main>
+    </div>
 
+    <script>
+        // TU LÓGICA ORIGINAL SIN CAMBIOS
+        const sndClick = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+        const sndPro = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
+
+        function playClick() { sndClick.play(); }
+        function playPro() { sndPro.play(); }
+
+        function cargarApp() {
+            const mensajes = [
+                { u: "Sistema", t: "¡Bienvenido a Digital Transport TJ!" },
+                { u: "Admin", t: "Reporta bloqueos en la 5 y 10 aquí." },
+                { u: "Usuario1", t: "El tráfico en Zona Río está fluido." }
+            ];
+            const list = document.getElementById('commentList');
+            mensajes.forEach(m => {
+                let d = document.createElement('div');
+                d.className = 'comment-item';
+                d.innerHTML = `<b>${m.u}:</b> ${m.t}`;
+                list.appendChild(d);
+            });
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            document.getElementById('theme-btn').innerHTML = body.classList.contains('dark-mode') ? "<span>☀️</span>DÍA" : "<span>🌙</span>NOCHE";
+        }
+
+        var map = L.map('map', { zoomControl: false }).setView([32.5149, -117.0382], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        const redIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png', iconSize: [25, 41], iconAnchor: [12, 41] });
+        const blueIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png', iconSize: [25, 41], iconAnchor: [12, 41] });
+
+        let markerA, markerB, routeLine;
+        
+        const puntosTJ = { 
+            "centro": { n: "Centro", lat: 32.535, lon: -117.038, r: "Taxi Rojo con Negro", t: "15", c: "15" }, 
+            "otay": { n: "Otay", lat: 32.532, lon: -116.942, r: "Taxi Guinda", t: "25", c: "15" }, 
+            "playas": { n: "Playas", lat: 32.531, lon: -117.119, r: "Taxi Blanco/Azul", t: "20", c: "18" }, 
+            "10": { n: "La 5 y 10", lat: 32.505, lon: -116.965, r: "Taxi Blanco/Amarillo", t: "20", c: "15" }
+        };
+
+        async function buscarRuta() {
+            const ori = document.getElementById('origenInput').value.toLowerCase();
+            const des = document.getElementById('destinoInput').value.toLowerCase();
+            let pA, pB;
+            for(let k in puntosTJ) { if(ori.includes(k)) pA = puntosTJ[k]; if(des.includes(k)) pB = puntosTJ[k]; }
+            if(!pA || !pB) return alert("Indica puntos válidos (Ej: Centro, Otay, Playas, 10).");
+            if(markerA) map.removeLayer(markerA); if(markerB) map.removeLayer(markerB); if(routeLine) map.removeLayer(routeLine);
+            markerA = L.marker([pA.lat, pA.lon], {icon: redIcon}).addTo(map);
+            markerB = L.marker([pB.lat, pB.lon], {icon: blueIcon}).addTo(map);
+            const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${pA.lon},${pA.lat};${pB.lon},${pB.lat}?overview=full&geometries=geojson`);
+            const data = await res.json();
+            routeLine = L.polyline(data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]), {color: '#12b0a6', weight: 6}).addTo(map);
+            map.fitBounds(routeLine.getBounds());
+            document.getElementById('val-ruta').innerText = pB.r;
+            document.getElementById('val-tiempo').innerText = pB.t + " min";
+            document.getElementById('val-costo').innerText = pB.c + " pesos";
+        }
+
+        function activarPro() {
+            document.getElementById('status-badge').innerText = "Digital Transport PRO";
+            document.getElementById('val-tiempo').style.filter = "none"; document.getElementById('val-tiempo').style.opacity = "1";
+            document.getElementById('val-costo').style.filter = "none"; document.getElementById('val-costo').style.opacity = "1";
+            document.getElementById('pro-banner').style.display = 'none';
+        }
+
+        function agregarComentario() {
+            let t = document.getElementById('commentInput').value; if(!t) return;
+            let d = document.createElement('div'); d.className='comment-item';
+            d.innerHTML = `<b>Tú:</b> ${t}`; document.getElementById('commentList').prepend(d);
+            document.getElementById('commentInput').value = "";
+        }
+    </script>
 </body>
 </html>
