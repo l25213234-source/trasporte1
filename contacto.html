@@ -2,84 +2,190 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto | Digital Transport</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="manifest" href="manifest.json">
     <style>
-        body { background: #f4f7f6; }
-        .contact-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-            padding: 20px;
+        :root {
+            --brand-color: #12b0a6;
+            --dark-bg: #111827;
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+            /* Colores Menú */
+            --c-inicio: #3b82f6;
+            --c-nosotros: #10b981;
+            --c-app: #f59e0b;
+            --c-contacto: #ef4444;
+            --c-soporte: #8b5cf6;
+            --c-publicaciones: #ec4899;
         }
-        .main-card {
-            background: white;
-            width: 100%;
-            max-width: 600px;
-            padding: 50px;
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background: var(--light-bg); color: var(--dark-bg); line-height: 1.6; }
+
+        /* --- NAVEGACIÓN GLOBAL --- */
+        .nav-global {
+            background: var(--dark-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .logo-nav { display: flex; align-items: center; gap: 10px; color: white; font-weight: bold; text-decoration: none; }
+        .logo-nav img { width: 35px; height: 35px; border-radius: 5px; background: white; padding: 2px; }
+        
+        .nav-links { display: flex; gap: 8px; }
+        .nav-links a {
+            color: white; text-decoration: none; font-size: 0.7rem;
+            font-weight: 800; padding: 8px 12px; border-radius: 6px;
+            text-transform: uppercase; transition: 0.3s;
+        }
+        .nav-links a:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Tarjeta de Información (Tu idea original mejorada) */
+        .info-card {
+            background: var(--white);
+            flex: 1;
+            min-width: 320px;
+            max-width: 500px;
+            padding: 40px;
             border-radius: 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            text-align: center;
-            border-bottom: 10px solid #12b0a6;
+            border-bottom: 10px solid var(--brand-color);
         }
-        .main-card h2 { color: #111827; font-size: 2.5rem; margin-bottom: 30px; }
-        
+
+        .info-card h2 { font-size: 2rem; margin-bottom: 25px; color: var(--dark-bg); }
+
         .detail-box {
             background: #f9f9f9;
-            margin: 15px 0;
+            margin-bottom: 20px;
             padding: 20px;
             border-radius: 15px;
             display: flex;
             align-items: center;
             gap: 20px;
             transition: 0.3s;
+            text-align: left;
         }
-        .detail-box:hover { background: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .detail-box:hover { background: var(--white); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
         .icon-circle {
-            background: #12b0a6;
+            background: var(--brand-color);
             color: white;
-            width: 50px; height: 50px;
+            width: 50px; height: 50px; min-width: 50px;
             display: flex; align-items: center; justify-content: center;
             border-radius: 50%; font-size: 1.2rem;
         }
-        .text-info { text-align: left; }
-        .text-info strong { display: block; color: #12b0a6; font-size: 0.8rem; text-transform: uppercase; }
+
+        .text-info strong { display: block; color: var(--brand-color); font-size: 0.8rem; text-transform: uppercase; }
+        .text-info p { font-size: 0.95rem; margin: 0; }
+
+        /* Formulario de Contacto (Funcional con EmailJS) */
+        .form-card {
+            background: var(--dark-bg);
+            flex: 1;
+            min-width: 320px;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 30px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .form-card h2 { margin-bottom: 25px; color: var(--brand-color); }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #1f2937;
+            color: white;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        input::placeholder, textarea::placeholder { color: #9ca3af; }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--brand-color);
+            border: none;
+            color: white;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #0e8a82; transform: translateY(-3px); }
 
         .btn-maps {
             display: inline-block;
-            margin-top: 30px;
+            margin-top: 20px;
             background: #db4437;
             color: white;
-            padding: 18px 40px;
+            padding: 15px 30px;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
-            box-shadow: 0 10px 20px rgba(219,68,55,0.3);
             transition: 0.3s;
+            text-align: center;
         }
-        .btn-maps:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(219,68,55,0.4); }
+        .btn-maps:hover { background: #c53929; transform: scale(1.05); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* En móvil se podría añadir un menú hamburguesa */
+            .contact-container { padding: 30px 15px; }
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Inicio</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="app.html">App</a>
-        <a href="contacto.html">Contacto</a>
-        <a href="soporte.html">Soporte</a> 
-        
+
+    <nav class="nav-global">
+        <a href="taxi.jpg" class="logo-nav">
+            <img src="taxi.jpg" alt="Logo"> Digital Transport
+        </a>
+        <div class="nav-links">
+            <a href="inicio.html" style="background:var(--c-inicio)">Inicio</a>
+            <a href="nosotros.html" style="background:var(--c-nosotros)">Nosotros</a>
+            <a href="app.html" style="background:var(--c-app)">App</a>
+            <a href="contacto.html" style="background:var(--c-contacto); border: 2px solid white;">Contacto</a>
+            <a href="soporte.html" style="background:var(--c-soporte)">Soporte</a>
+            <a href="publicaciones.html" style="background:var(--c-publicaciones)">Publicaciones</a>
+        </div>
     </nav>
 
-    <div class="contact-page">
-        <div class="main-card">
+    <div class="contact-container">
+        
+        <div class="info-card">
             <h2>Visítanos</h2>
             
             <div class="detail-box">
                 <div class="icon-circle">📍</div>
                 <div class="text-info">
                     <strong>Dirección Física</strong>
-                    Misión de San Javier 10643-400, Zona Río, 22010.
+                    <p>Misión de San Javier 10643-400, Zona Río, 22010. Tijuana, B.C.</p>
                 </div>
             </div>
 
@@ -87,7 +193,7 @@
                 <div class="icon-circle">📞</div>
                 <div class="text-info">
                     <strong>Línea Directa</strong>
-                    +52 (664) 123-4567
+                    <p>+52 (664) 123-4567</p>
                 </div>
             </div>
 
@@ -95,15 +201,64 @@
                 <div class="icon-circle">✉️</div>
                 <div class="text-info">
                     <strong>Correo Oficial</strong>
-                    soporte@digitaltransport.mx
+                    <p>soporte@digitaltransport.mx</p>
                 </div>
             </div>
 
-            <a href="http://googleusercontent.com/maps.google.com/5" target="_blank" class="btn-maps">
+            <a href="https://www.google.com/maps" target="_blank" class="btn-maps">
                 ¿CÓMO LLEGAR? (GOOGLE MAPS)
             </a>
         </div>
-    </div>
-</body>
 
+        <div class="form-card">
+            <h2>Escríbenos</h2>
+            <form id="contact-form" onsubmit="enviarFormulario(event)">
+                <input type="text" id="nombre" placeholder="Tu Nombre Completo" required>
+                <input type="email" id="correo" placeholder="Correo Electrónico" required>
+                <textarea id="mensaje" placeholder="¿En qué podemos ayudarte?" rows="5" required></textarea>
+                <button type="submit" id="btn-enviar">ENVIAR MENSAJE</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function(){
+            // Reemplaza con tu llave pública de EmailJS
+            emailjs.init("TU_PUBLIC_KEY");
+        })();
+
+        function enviarFormulario(e){
+            e.preventDefault();
+            const btn = document.getElementById("btn-enviar");
+            btn.innerText = "ENVIANDO...";
+            btn.disabled = true;
+
+            emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID", {
+                from_name: document.getElementById("nombre").value,
+                from_email: document.getElementById("correo").value,
+                message: document.getElementById("mensaje").value
+            })
+            .then(() => {
+                alert("¡Gracias! Mensaje enviado correctamente.");
+                document.getElementById("contact-form").reset();
+                btn.innerText = "ENVIAR MENSAJE";
+                btn.disabled = false;
+            })
+            .catch((err) => {
+                alert("Ups! Hubo un error al enviar. Inténtalo de nuevo.");
+                console.error(err);
+                btn.innerText = "ENVIAR MENSAJE";
+                btn.disabled = false;
+            });
+        }
+
+        // Service Worker para PWA
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+
+</body>
 </html>
