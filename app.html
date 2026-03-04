@@ -1,227 +1,397 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Digital Transport - TJ PRO Elite</title>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
         :root { 
+
             --brand-color: #12b0a6; --dark-nav: #0d1b2a;
+
             --c-inicio: #4285f4; --c-nosotros: #10b981; --c-app: #f59e0b; 
+
             --c-contacto: #ef4444; --c-soporte: #8b5cf6; --c-publicaciones: #ec4899;
+
         }
+
         body { display: flex; flex-direction: column; height: 100vh; background: #f3f4f6; overflow: hidden; }
+
         
+
         /* Navegación según tu imagen */
+
         .nav-global { background: var(--dark-nav); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+
         .logo-nav { color: white; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+
         .menu-links { display: flex; gap: 8px; }
+
         .menu-links a { color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+
         .btn-inicio { background: var(--c-inicio); }
+
         .btn-nosotros { background: var(--c-nosotros); }
+
         .btn-app { background: var(--c-app); }
+
         .btn-contacto { background: var(--c-contacto); }
+
         .btn-soporte { background: var(--c-soporte); }
+
         .btn-publicaciones { background: var(--c-publicaciones); }
 
+
+
         .main-layout { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
+
         @media (min-width: 768px) { .main-layout { flex-direction: row; } }
+
         
+
         .sidebar { width: 100%; max-width: 380px; background: white; padding: 20px; box-shadow: 5px 0 15px rgba(0,0,0,0.05); z-index: 10; overflow-y: auto; }
+
         .status-badge { background: #e0f2f1; color: var(--brand-color); padding: 10px; border-radius: 10px; font-weight: bold; text-align: center; margin-bottom: 15px; border: 1px solid var(--brand-color); }
+
         .pro-active { background: #f1c40f !important; color: #111827 !important; border: none !important; }
 
+
+
         .card { border: 1px solid #eee; padding: 15px; border-radius: 14px; margin-bottom: 12px; background: white; }
+
         h3 { font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; color: var(--brand-color); }
+
         input { width: 100%; padding: 10px; margin-bottom: 8px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+
         
+
         .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+
         .btn-traza { background: var(--brand-color); color: white; text-transform: uppercase; }
+
         .btn-pro-buy { background: #374151; color: white; margin-top: 10px; }
+
         
-        /* Estilo para el botón de ubicación */
-        .btn-gps { background: #f3f4f6; color: #374151; border: 1px solid #ddd; margin-bottom: 12px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .btn-gps:hover { background: #e5e7eb; }
 
         .map-wrapper { flex-grow: 1; position: relative; }
+
         #map { height: 100%; width: 100%; }
 
+
+
         .step-box { border-left: 4px solid var(--brand-color); padding: 10px; margin: 10px 0; background: #f9fdfd; font-size: 0.85rem; border-radius: 0 8px 8px 0; }
+
         .tag-directo { color: #10b981; font-weight: bold; font-size: 0.7rem; display: block; margin-bottom: 3px; }
+
         .tag-traslado { color: #d32f2f; font-weight: bold; font-size: 0.7rem; display: block; margin-bottom: 3px; }
+
     </style>
+
 </head>
+
 <body onload="cargarApp()">
 
+
+
     <nav class="nav-global">
+
         <a href="#" class="logo-nav">DIGITAL TRANSPORT TJ</a>
+
         <div class="menu-links">
+
             <a href="index.html" class="btn-inicio">Inicio</a>
+
             <a href="nosotros.html" class="btn-nosotros">Nosotros</a>
+
             <a href="app.html" class="btn-app">App</a>
+
             <a href="soporte.html" class="btn-soporte">Soporte</a>
+
             <a href="publicaciones.html" class="btn-publicaciones">Publicaciones</a>
+
             <a href="contacto.html" class="btn-contacto">Contacto</a>
+
         </div>
+
     </nav>
 
+
+
     <div class="main-layout">
+
         <aside class="sidebar">
+
             <div id="status-badge" class="status-badge">Créditos: 3</div>
 
-            <div class="card">
-                <h3>Buscador de Rutas</h3>
-                <input type="text" id="origenInput" placeholder="📍 Origen (ej. Otay)">
-                <button class="btn btn-gps" onclick="obtenerUbicacion()">📍 Usar mi ubicación actual</button>
-                <input type="text" id="destinoInput" placeholder="🏁 Destino (ej. Centro)">
-                <button class="btn btn-traza" onclick="validarBusqueda()">Trazar Ruta</button>
-            </div>
+
 
             <div class="card">
-                <h3>Itinerario de Viaje</h3>
-                <div id="itinerario-texto">Ingresa origen y destino para ver qué taxi tomar.</div>
-                <hr style="margin: 10px 0; opacity: 0.1;">
-                <p><b>Tiempo Est.:</b> <span id="val-tiempo" style="filter:blur(4px);">--</span></p>
-                <p><b>Costo:</b> <span id="val-costo" style="filter:blur(4px);">--</span></p>
-                <button id="btn-pro-action" class="btn btn-pro-buy" onclick="activarModoPro()">ACTIVAR PRO ($149 MXN)</button>
+
+                <h3>Buscador de Rutas</h3>
+
+                <input type="text" id="origenInput" placeholder="📍 Origen (ej. Otay)">
+
+                <input type="text" id="destinoInput" placeholder="🏁 Destino (ej. Centro)">
+
+                <button class="btn btn-traza" onclick="validarBusqueda()">Trazar Ruta</button>
+
             </div>
+
+
+
+            <div class="card">
+
+                <h3>Itinerario de Viaje</h3>
+
+                <div id="itinerario-texto">Ingresa origen y destino para ver qué taxi tomar.</div>
+
+                <hr style="margin: 10px 0; opacity: 0.1;">
+
+                <p><b>Tiempo Est.:</b> <span id="val-tiempo" style="filter:blur(4px);">--</span></p>
+
+                <p><b>Costo:</b> <span id="val-costo" style="filter:blur(4px);">--</span></p>
+
+                <button id="btn-pro-action" class="btn btn-pro-buy" onclick="activarModoPro()">ACTIVAR PRO ($149 MXN)</button>
+
+            </div>
+
         </aside>
 
+
+
         <main class="map-wrapper">
+
             <div id="map"></div>
+
         </main>
+
     </div>
 
+
+
     <script>
+
         let creditos = 3;
+
         let esPro = false;
+
         let markerA, markerB, lineaRuta;
-        let miUbicacionActual = null;
+
+
 
         var map = L.map('map', { zoomControl: false }).setView([32.5149, -117.0382], 12);
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
+
+
         const puntosTJ = {
+
             "otay": [32.532, -116.942],
+
             "centro": [32.535, -117.038],
+
             "playas": [32.531, -117.119],
+
             "rosarito": [32.359, -117.056],
+
             "5 y 10": [32.500, -116.966],
+
             "santa fe": [32.448, -117.025],
+
             "siglo xxi": [32.495, -116.915],
+
             "rio": [32.527, -117.020]
+
         };
+
+
 
         const baseRutas = {
+
             "otay-centro": { pasos: ["🚌 Toma el Taxi Azul con Blanco"], tiempo: "30 min", costo: "$15.00 MXN", tipo: "DIRECTO" },
+
             "playas-centro": { pasos: ["🚌 Toma el Taxi Blanco con Azul"], tiempo: "25 min", costo: "$18.00 MXN", tipo: "DIRECTO" },
+
             "santa fe-centro": { pasos: ["🚌 Toma el Taxi Blanco con Amarillo"], tiempo: "45 min", costo: "$20.00 MXN", tipo: "DIRECTO" },
+
             "5 y 10-centro": { pasos: ["🚌 Toma el Taxi Negro con Rojo"], tiempo: "20 min", costo: "$15.00 MXN", tipo: "DIRECTO" },
+
             "otay-5 y 10": { pasos: ["🚌 Toma el Taxi Café con Blanco"], tiempo: "20 min", costo: "$15.00 MXN", tipo: "DIRECTO" },
+
             "rio-centro": { pasos: ["🚌 Toma el Taxi Guinda"], tiempo: "10 min", costo: "$15.00 MXN", tipo: "DIRECTO" },
+
             "centro-rosarito": { pasos: ["🚌 Toma el Taxi Blanco con Dorado"], tiempo: "45 min", costo: "$25.00 MXN", tipo: "DIRECTO" },
+
             "otay-playas": { 
+
                 pasos: ["🚌 Taxi Azul con Blanco hasta Centro", "⚠️ BAJA en Calle 2da", "🚌 Sube al Taxi Blanco con Azul hasta Playas"], 
+
                 tiempo: "1h 10 min", costo: "$33.00 MXN", tipo: "TRASLADO" 
+
             },
+
             "otay-rosarito": { 
+
                 pasos: ["🚌 Taxi Café con Blanco hasta 5 y 10", "⚠️ TRANSBORDO en la 5 y 10", "🚌 Sube al Taxi Dorado hasta Rosarito"], 
+
                 tiempo: "1h 25 min", costo: "$40.00 MXN", tipo: "TRASLADO" 
+
             }
+
         };
 
-        function obtenerUbicacion() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const { latitude, longitude } = position.coords;
-                        miUbicacionActual = [latitude, longitude];
-                        document.getElementById('origenInput').value = "Mi Ubicación Actual";
-                        
-                        // Centrar mapa en usuario
-                        map.setView(miUbicacionActual, 15);
-                        if (markerA) map.removeLayer(markerA);
-                        markerA = L.marker(miUbicacionActual).addTo(map).bindPopup("Estás aquí").openPopup();
-                    },
-                    () => { alert("No se pudo obtener tu ubicación. Asegúrate de dar permisos de GPS."); }
-                );
-            } else {
-                alert("Tu navegador no soporta geolocalización.");
-            }
-        }
+
 
         function validarBusqueda() {
+
             if (esPro || creditos > 0) {
+
                 if (!esPro) { creditos--; actualizarUI(); }
+
                 ejecutarTrazado();
+
             } else { alert("Sin créditos disponibles. Activa PRO."); }
+
         }
+
+
 
         async function ejecutarTrazado() {
-            const origenTxt = document.getElementById('origenInput').value.toLowerCase().trim();
-            const destinoTxt = document.getElementById('destinoInput').value.toLowerCase().trim();
-            
-            let coordOrigen = (origenTxt === "mi ubicación actual" && miUbicacionActual) ? miUbicacionActual : puntosTJ[origenTxt];
-            let coordDestino = puntosTJ[destinoTxt];
 
-            if (!coordOrigen || !coordDestino) {
-                document.getElementById('itinerario-texto').innerHTML = "No se encontraron detalles. Prueba con: Otay, Centro, Playas, 5 y 10...";
+            const origen = document.getElementById('origenInput').value.toLowerCase().trim();
+
+            const destino = document.getElementById('destinoInput').value.toLowerCase().trim();
+
+            
+
+            if (!puntosTJ[origen] || !puntosTJ[destino]) {
+
+                document.getElementById('itinerario-texto').innerHTML = "No se encontraron detalles específicos. Intenta con: Otay, Centro, Playas, Rosarito, 5 y 10, Santa Fe.";
+
                 return;
+
             }
+
+
 
             if (markerA) map.removeLayer(markerA);
+
             if (markerB) map.removeLayer(markerB);
+
             if (lineaRuta) map.removeLayer(lineaRuta);
 
-            markerA = L.marker(coordOrigen).addTo(map);
-            markerB = L.marker(coordDestino).addTo(map);
 
-            const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordOrigen[1]},${coordOrigen[0]};${coordDestino[1]},${coordDestino[0]}?overview=full&geometries=geojson`);
+
+            markerA = L.marker(puntosTJ[origen]).addTo(map);
+
+            markerB = L.marker(puntosTJ[destino]).addTo(map);
+
+
+
+            const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${puntosTJ[origen][1]},${puntosTJ[origen][0]};${puntosTJ[destino][1]},${puntosTJ[destino][0]}?overview=full&geometries=geojson`);
+
             const data = await res.json();
+
             lineaRuta = L.polyline(data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]), {color: '#12b0a6', weight: 6}).addTo(map);
+
             map.fitBounds(lineaRuta.getBounds());
 
-            const info = baseRutas[`${origenTxt}-${destinoTxt}`];
+
+
+            const info = baseRutas[`${origen}-${destino}`];
+
             const display = document.getElementById('itinerario-texto');
+
             display.innerHTML = "";
 
+
+
             if (info) {
+
                 info.pasos.forEach(p => {
+
                     let d = document.createElement('div');
+
                     d.className = 'step-box';
+
                     let tag = info.tipo === "DIRECTO" ? `<span class="tag-directo">DIRECTO</span>` : `<span class="tag-traslado">CON TRASBORDO</span>`;
+
                     d.innerHTML = tag + p;
+
                     display.appendChild(d);
+
                 });
+
                 document.getElementById('val-tiempo').innerText = info.tiempo;
+
                 document.getElementById('val-costo').innerText = info.costo;
+
             } else {
+
                 display.innerHTML = "Ruta trazada. Toma el taxi correspondiente a esta zona.";
+
             }
+
         }
+
+
 
         function activarModoPro() {
+
             esPro = true;
+
             actualizarUI();
+
             document.getElementById('val-tiempo').style.filter = "none";
+
             document.getElementById('val-costo').style.filter = "none";
+
             document.getElementById('btn-pro-action').style.display = "none";
+
         }
+
+
 
         function actualizarUI() {
+
             const badge = document.getElementById('status-badge');
+
             if (esPro) {
+
                 badge.innerText = "Digital Transport PRO";
+
                 badge.classList.add('pro-active');
+
             } else {
+
                 badge.innerText = "Créditos: " + creditos;
+
             }
+
         }
 
+
+
         function cargarApp() { console.log("TJ Ready"); }
+
     </script>
+
 </body>
+
 </html>
+
+Gemini ha dicho
