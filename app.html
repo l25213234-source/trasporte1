@@ -42,6 +42,10 @@
         .btn-traza { background: var(--brand-color); color: white; text-transform: uppercase; }
         .btn-pro-buy { background: #374151; color: white; margin-top: 10px; }
         
+        /* Estilo para el botón de ubicación */
+        .btn-gps { background: #f3f4f6; color: #374151; border: 1px solid #ddd; margin-bottom: 12px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-gps:hover { background: #e5e7eb; }
+
         .map-wrapper { flex-grow: 1; position: relative; }
         #map { height: 100%; width: 100%; }
 
@@ -71,6 +75,7 @@
             <div class="card">
                 <h3>Buscador de Rutas</h3>
                 <input type="text" id="origenInput" placeholder="📍 Origen (ej. Otay)">
+                <button class="btn btn-gps" onclick="obtenerUbicacion()">📍 Usar mi ubicación actual</button>
                 <input type="text" id="destinoInput" placeholder="🏁 Destino (ej. Centro)">
                 <button class="btn btn-traza" onclick="validarBusqueda()">Trazar Ruta</button>
             </div>
@@ -94,6 +99,7 @@
         let creditos = 3;
         let esPro = false;
         let markerA, markerB, lineaRuta;
+        let miUbicacionActual = null;
 
         var map = L.map('map', { zoomControl: false }).setView([32.5149, -117.0382], 12);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -127,6 +133,26 @@
             }
         };
 
+        function obtenerUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        miUbicacionActual = [latitude, longitude];
+                        document.getElementById('origenInput').value = "Mi Ubicación Actual";
+                        
+                        // Centrar mapa en usuario
+                        map.setView(miUbicacionActual, 15);
+                        if (markerA) map.removeLayer(markerA);
+                        markerA = L.marker(miUbicacionActual).addTo(map).bindPopup("Estás aquí").openPopup();
+                    },
+                    () => { alert("No se pudo obtener tu ubicación. Asegúrate de dar permisos de GPS."); }
+                );
+            } else {
+                alert("Tu navegador no soporta geolocalización.");
+            }
+        }
+
         function validarBusqueda() {
             if (esPro || creditos > 0) {
                 if (!esPro) { creditos--; actualizarUI(); }
@@ -135,11 +161,14 @@
         }
 
         async function ejecutarTrazado() {
-            const origen = document.getElementById('origenInput').value.toLowerCase().trim();
-            const destino = document.getElementById('destinoInput').value.toLowerCase().trim();
+            const origenTxt = document.getElementById('origenInput').value.toLowerCase().trim();
+            const destinoTxt = document.getElementById('destinoInput').value.toLowerCase().trim();
             
-            if (!puntosTJ[origen] || !puntosTJ[destino]) {
-                document.getElementById('itinerario-texto').innerHTML = "No se encontraron detalles específicos. Intenta con: Otay, Centro, Playas, Rosarito, 5 y 10, Santa Fe.";
+            let coordOrigen = (origenTxt === "mi ubicación actual" && miUbicacionActual) ? miUbicacionActual : puntosTJ[origenTxt];
+            let coordDestino = puntosTJ[destinoTxt];
+
+            if (!coordOrigen || !coordDestino) {
+                document.getElementById('itinerario-texto').innerHTML = "No se encontraron detalles. Prueba con: Otay, Centro, Playas, 5 y 10...";
                 return;
             }
 
@@ -147,15 +176,15 @@
             if (markerB) map.removeLayer(markerB);
             if (lineaRuta) map.removeLayer(lineaRuta);
 
-            markerA = L.marker(puntosTJ[origen]).addTo(map);
-            markerB = L.marker(puntosTJ[destino]).addTo(map);
+            markerA = L.marker(coordOrigen).addTo(map);
+            markerB = L.marker(coordDestino).addTo(map);
 
-            const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${puntosTJ[origen][1]},${puntosTJ[origen][0]};${puntosTJ[destino][1]},${puntosTJ[destino][0]}?overview=full&geometries=geojson`);
+            const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordOrigen[1]},${coordOrigen[0]};${coordDestino[1]},${coordDestino[0]}?overview=full&geometries=geojson`);
             const data = await res.json();
             lineaRuta = L.polyline(data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]), {color: '#12b0a6', weight: 6}).addTo(map);
             map.fitBounds(lineaRuta.getBounds());
 
-            const info = baseRutas[`${origen}-${destino}`];
+            const info = baseRutas[`${origenTxt}-${destinoTxt}`];
             const display = document.getElementById('itinerario-texto');
             display.innerHTML = "";
 
@@ -196,4 +225,3 @@
     </script>
 </body>
 </html>
-
