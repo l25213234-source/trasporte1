@@ -29,7 +29,7 @@
             flex-direction: column;
         }
 
-        /* ====== HEADER & NAV (RÚBRICA) ====== */
+        /* ====== HEADER & NAV ====== */
         header {
             background: var(--dark-bg);
             padding: 10px 20px;
@@ -55,14 +55,12 @@
         nav a:hover { transform: translateY(-2px); filter: brightness(1.2); }
         .active { border: 2px solid white; box-shadow: 0 0 10px var(--primary); }
 
-        /* ====== SECCIÓN DE AYUDA RÁPIDA (DISEÑO CREATIVO) ====== */
-        .support-hero {
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
+        /* ====== SECCIÓN HERO ====== */
+        .support-hero { text-align: center; padding: 40px 20px 20px; }
         .support-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
         .support-hero p { opacity: 0.8; margin-bottom: 30px; }
 
+        /* ====== QUICK CARDS ====== */
         .quick-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -72,7 +70,7 @@
             padding: 0 20px;
         }
         .q-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             padding: 25px;
             border-radius: 20px;
             text-align: center;
@@ -81,18 +79,62 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .q-card:hover { 
-            background: rgba(0, 195, 255, 0.2); 
+            background: rgba(0, 195, 255, 0.15); 
             transform: translateY(-5px);
             border-color: var(--primary);
         }
-        .q-card i { font-size: 2rem; display: block; margin-bottom: 10px; }
+        .q-card i { font-size: 2rem; display: block; margin-bottom: 10px; font-style: normal; }
 
-        /* ====== CHATBOT CONTAINER ====== */
-        .chat-container {
-            flex: 1;
+        /* ====== FAQ SECTION (NUEVO) ====== */
+        .faq-section {
             max-width: 800px;
             width: 95%;
-            margin: 0 auto 30px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+        }
+        .faq-section h2 { text-align: center; margin-bottom: 25px; color: var(--primary); }
+        
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .faq-question {
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .faq-question:hover { background: rgba(0, 195, 255, 0.1); }
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background: rgba(0, 0, 0, 0.2);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        .faq-item.active-faq .faq-answer {
+            padding: 20px 25px;
+            max-height: 200px;
+        }
+        .faq-item.active-faq .faq-question {
+            color: var(--primary);
+            border-bottom: 1px solid rgba(0, 195, 255, 0.2);
+        }
+
+        /* ====== CHATBOT ====== */
+        .chat-container {
+            max-width: 800px;
+            width: 95%;
+            margin: 0 auto 60px;
             background: rgba(11, 28, 45, 0.95);
             border-radius: 30px;
             display: flex;
@@ -113,7 +155,6 @@
         }
 
         .chat-box {
-            flex: 1;
             padding: 25px;
             overflow-y: auto;
             display: flex;
@@ -123,64 +164,32 @@
 
         .message {
             max-width: 80%;
-            padding: 15px 20px;
-            margin: 10px 0;
-            border-radius: 20px;
-            font-size: 0.95rem;
+            padding: 12px 18px;
+            margin: 8px 0;
+            border-radius: 18px;
+            font-size: 0.9rem;
             animation: slideUp 0.3s ease;
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .bot {
-            background: #1a3a5a;
-            color: white;
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-        }
+        .bot { background: #1a3a5a; color: white; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .user { background: var(--primary); color: var(--dark-bg); font-weight: 600; align-self: flex-end; border-bottom-right-radius: 2px; }
 
-        .user {
-            background: var(--primary);
-            color: var(--dark-bg);
-            font-weight: 600;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
+        .input-area { display: flex; padding: 15px; background: #081420; gap: 10px; }
+        input[type="text"] {
+            flex: 1; padding: 12px 20px; border: none; border-radius: 25px;
+            background: #1a3a5a; color: white; outline: none;
         }
-
-        /* INPUT AREA */
-        .input-area {
-            display: flex;
-            padding: 20px;
-            background: #081420;
-            gap: 15px;
+        .btn-send {
+            padding: 0 25px; border: none; border-radius: 25px;
+            background: var(--primary); color: var(--dark-bg);
+            font-weight: bold; cursor: pointer; transition: 0.3s;
         }
-
-        input {
-            flex: 1;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 30px;
-            background: #1a3a5a;
-            color: white;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        button {
-            padding: 0 30px;
-            border: none;
-            border-radius: 30px;
-            background: var(--primary);
-            color: var(--dark-bg);
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover { filter: brightness(1.2); transform: scale(1.05); }
+        .btn-send:hover { filter: brightness(1.2); }
 
         @media(max-width: 768px) {
             nav { display: none; }
@@ -191,16 +200,17 @@
 <body>
 
 <header>
-    <a href="taxi.jpg" class="logo-container">
-        <img src="logo.png" alt="Logo" class="logo-img"> <div class="logo-text">Digital Transport</div>
+    <a href="#" class="logo-container">
+        <img src="taxi.jpg" alt="Logo" class="logo-img"> 
+        <div class="logo-text">Digital Transport</div>
     </a>
     <nav>
         <a href="index.html" style="background:var(--c-inicio)">Inicio</a>
         <a href="nosotros.html" style="background:var(--c-nosotros)">Nosotros</a>
         <a href="app.html" style="background:var(--c-app)">App</a>
-        <a href="contacto.html" style="background:var(--c-contacto)">Contacto</a>
         <a href="soporte.html" class="active" style="background:var(--c-soporte)">Soporte</a>
         <a href="publicaciones.html" style="background:var(--c-publicaciones)">Publicaciones</a>
+        <a href="contacto.html" style="background:var(--c-publicaciones)">Contacto</a>
     </nav>
 </header>
 
@@ -227,6 +237,38 @@
     </div>
 </div>
 
+<div class="faq-section">
+    <h2>Preguntas Frecuentes</h2>
+    
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">¿Cómo sé qué taxi me lleva a Otay? <span>+</span></div>
+        <div class="faq-answer">
+            Puedes tomar los taxis Azul con Blanco desde el Centro o los taxis Café con Blanco si vienes desde la 5 y 10. Ambos son directos.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">¿Hay transporte directo a Playas? <span>+</span></div>
+        <div class="faq-answer">
+            Sí, los taxis Blanco con Franja Azul salen directamente desde la Calle 2da en el Centro de Tijuana.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">¿Los precios suben de noche? <span>+</span></div>
+        <div class="faq-answer">
+            Generalmente, después de las 11:00 PM, los transportes suelen aplicar una tarifa nocturna que puede subir entre $2 y $5 MXN adicionales.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">¿Dónde tomo el taxi a Rosarito? <span>+</span></div>
+        <div class="faq-answer">
+            Los taxis Blanco con Dorado hacia Rosarito se encuentran principalmente en el Centro o cerca del puente de la 5 y 10.
+        </div>
+    </div>
+</div>
+
 <div class="chat-container">
     <div class="chat-header">
         <span>🤖</span> Asistente Digital Transport
@@ -240,11 +282,19 @@
 
     <div class="input-area">
         <input type="text" id="input" placeholder="Escribe tu mensaje aquí..." onkeypress="if(event.key==='Enter') sendMessage()">
-        <button onclick="sendMessage()">ENVIAR</button>
+        <button class="btn-send" onclick="sendMessage()">ENVIAR</button>
     </div>
 </div>
 
 <script>
+// Función para el Acordeón de FAQ
+function toggleFaq(element) {
+    const parent = element.parentElement;
+    parent.classList.toggle('active-faq');
+    const span = element.querySelector('span');
+    span.innerText = parent.classList.contains('active-faq') ? '-' : '+';
+}
+
 function autoPregunta(texto) {
     document.getElementById("input").value = texto;
     sendMessage();
@@ -274,7 +324,10 @@ function sendMessage(){
         botResponse.innerHTML = "💵 <b>Tarifas:</b> Cortas ($15-$18 MXN) y Largas ($23 MXN). Los precios están regulados.";
     }
     else if(message.includes("taxi")){
-        botResponse.innerHTML = "🚖 <b>Servicios:</b> Taxis Rojos (Ruta), Guindas, Blanco/Negro y transporte masivo.";
+        botResponse.innerHTML = "🚖 <b>Servicios:</b> Taxis Rojos (Ruta), Guindas, Blanco/Azul (Playas) y Blanco/Amarillo (Santa Fe).";
+    }
+    else if(message.includes("otay")){
+        botResponse.innerHTML = "🎓 <b>Hacia Otay:</b> Usa los Taxis Azul con Blanco (Centro) o Café (5 y 10). Te dejan en UABC y el Tecnológico.";
     }
     else {
         botResponse.innerHTML = "🤖 Entendido. Para temas técnicos, también puedes contactarnos en soporte@digitaltransport.mx";
