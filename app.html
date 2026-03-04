@@ -15,6 +15,7 @@
         }
         body { display: flex; flex-direction: column; height: 100vh; background: #f3f4f6; overflow: hidden; }
         
+        /* Navegación según tu imagen */
         .nav-global { background: var(--dark-nav); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
         .logo-nav { color: white; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
         .menu-links { display: flex; gap: 8px; }
@@ -41,7 +42,9 @@
         .btn-traza { background: var(--brand-color); color: white; text-transform: uppercase; }
         .btn-pro-buy { background: #374151; color: white; margin-top: 10px; }
         
+        /* Estilo para el botón de ubicación */
         .btn-gps { background: #f3f4f6; color: #374151; border: 1px solid #ddd; margin-bottom: 12px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-gps:hover { background: #e5e7eb; }
 
         .map-wrapper { flex-grow: 1; position: relative; }
         #map { height: 100%; width: 100%; }
@@ -97,7 +100,6 @@
         let esPro = false;
         let markerA, markerB, lineaRuta;
         let miUbicacionActual = null;
-        let nombreOrigenManual = ""; // Para guardar el nombre si se usa GPS
 
         var map = L.map('map', { zoomControl: false }).setView([32.5149, -117.0382], 12);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -133,20 +135,21 @@
 
         function obtenerUbicacion() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const { latitude, longitude } = position.coords;
-                    miUbicacionActual = [latitude, longitude];
-                    
-                    // Encontrar el punto más cercano para saber qué ruta mostrar
-                    let minDistance = Infinity;
-                    let puntoCercano = "";
-                    for (let nombre in puntosTJ) {
-                        let d = Math.sqrt(Math.pow(latitude - puntosTJ[nombre][0], 2) + Math.pow(longitude - puntosTJ[nombre][1], 2));
-                        if (d < minDistance) { minDistance = d; puntoCercano = nombre; }
-                    }
-                    nombreOrigenManual = puntoCercano;
-                    document.getElementById('origenInput').value = "Mi Ubicación (" + puntoCercano.toUpperCase() + ")";
-                });
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        miUbicacionActual = [latitude, longitude];
+                        document.getElementById('origenInput').value = "Mi Ubicación Actual";
+                        
+                        // Centrar mapa en usuario
+                        map.setView(miUbicacionActual, 15);
+                        if (markerA) map.removeLayer(markerA);
+                        markerA = L.marker(miUbicacionActual).addTo(map).bindPopup("Estás aquí").openPopup();
+                    },
+                    () => { alert("No se pudo obtener tu ubicación. Asegúrate de dar permisos de GPS."); }
+                );
+            } else {
+                alert("Tu navegador no soporta geolocalización.");
             }
         }
 
@@ -154,21 +157,18 @@
             if (esPro || creditos > 0) {
                 if (!esPro) { creditos--; actualizarUI(); }
                 ejecutarTrazado();
-            } else { alert("Sin créditos disponibles."); }
+            } else { alert("Sin créditos disponibles. Activa PRO."); }
         }
 
         async function ejecutarTrazado() {
-            let origenTxt = document.getElementById('origenInput').value.toLowerCase().trim();
+            const origenTxt = document.getElementById('origenInput').value.toLowerCase().trim();
             const destinoTxt = document.getElementById('destinoInput').value.toLowerCase().trim();
             
-            // Si detecta que es GPS, usa el nombre detectado para buscar en la base de datos
-            if (origenTxt.includes("mi ubicación")) { origenTxt = nombreOrigenManual; }
-
-            const coordOrigen = (miUbicacionActual && document.getElementById('origenInput').value.includes("Mi Ubicación")) ? miUbicacionActual : puntosTJ[origenTxt];
-            const coordDestino = puntosTJ[destinoTxt];
+            let coordOrigen = (origenTxt === "mi ubicación actual" && miUbicacionActual) ? miUbicacionActual : puntosTJ[origenTxt];
+            let coordDestino = puntosTJ[destinoTxt];
 
             if (!coordOrigen || !coordDestino) {
-                document.getElementById('itinerario-texto').innerHTML = "No se encontró la ruta. Prueba con: Otay, Centro, Playas...";
+                document.getElementById('itinerario-texto').innerHTML = "No se encontraron detalles. Prueba con: Otay, Centro, Playas, 5 y 10...";
                 return;
             }
 
@@ -184,7 +184,6 @@
             lineaRuta = L.polyline(data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]), {color: '#12b0a6', weight: 6}).addTo(map);
             map.fitBounds(lineaRuta.getBounds());
 
-            // AQUÍ SE RECUPERA LA INFO DEL CAMIÓN/TAXI
             const info = baseRutas[`${origenTxt}-${destinoTxt}`];
             const display = document.getElementById('itinerario-texto');
             display.innerHTML = "";
@@ -200,12 +199,13 @@
                 document.getElementById('val-tiempo').innerText = info.tiempo;
                 document.getElementById('val-costo').innerText = info.costo;
             } else {
-                display.innerHTML = "Ruta trazada. Toma el taxi hacia " + destinoTxt.toUpperCase();
+                display.innerHTML = "Ruta trazada. Toma el taxi correspondiente a esta zona.";
             }
         }
 
         function activarModoPro() {
-            esPro = true; actualizarUI();
+            esPro = true;
+            actualizarUI();
             document.getElementById('val-tiempo').style.filter = "none";
             document.getElementById('val-costo').style.filter = "none";
             document.getElementById('btn-pro-action').style.display = "none";
@@ -213,8 +213,12 @@
 
         function actualizarUI() {
             const badge = document.getElementById('status-badge');
-            badge.innerText = esPro ? "Digital Transport PRO" : "Créditos: " + creditos;
-            if (esPro) badge.classList.add('pro-active');
+            if (esPro) {
+                badge.innerText = "Digital Transport PRO";
+                badge.classList.add('pro-active');
+            } else {
+                badge.innerText = "Créditos: " + creditos;
+            }
         }
 
         function cargarApp() { console.log("TJ Ready"); }
