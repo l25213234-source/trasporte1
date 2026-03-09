@@ -10,12 +10,13 @@
             --dark-bg: #0b1c2d;
             --gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             --white: #ffffff;
-            --c-inicio: #3b82f6;
-            --c-nosotros: #10b981;
+            /* Colores de botones del menú */
+            --c-inicio: #3b82f6; 
+            --c-nosotros: #7a0366; 
             --c-app: #f59e0b;
-            --c-contacto: #ef4444;
-            --c-soporte: #00c3ff;
+            --c-soporte: #8b5cf6; 
             --c-publicaciones: #ec4899;
+            --c-contacto: #ef4444; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -28,31 +29,65 @@
             flex-direction: column;
         }
 
-        /* ====== HEADER & NAV ====== */
-        header {
-            background: var(--dark-bg);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
+        /* ====== NAVEGACIÓN (ESTILO GLOBAL CORREGIDO) ====== */
+        nav {
+            display: flex; 
+            justify-content: space-between; 
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0, 195, 255, 0.3);
-            position: sticky;
-            top: 0;
+            padding: 12px 40px; 
+            background: var(--dark-bg); 
+            position: sticky; 
+            top: 0; 
             z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-img { width: 40px; height: 40px; border-radius: 8px; background: white; padding: 2px; }
-        .logo-text { color: white; font-size: 1.2rem; font-weight: 800; letter-spacing: -0.5px; }
-
-        nav { display: flex; gap: 8px; }
-        nav a {
-            color: white; text-decoration: none; font-size: 11px;
-            font-weight: 800; padding: 10px 14px; border-radius: 6px;
-            text-transform: uppercase; transition: 0.3s;
+        .logo-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            color: white; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            text-decoration: none;
+            font-size: 0.9rem;
         }
-        nav a:hover { transform: translateY(-2px); filter: brightness(1.2); }
-        .active { border: 2px solid white; box-shadow: 0 0 10px var(--primary); }
+
+        .logo-container img { 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 8px; 
+            background: white; 
+            padding: 2px; 
+        }
+        
+        .menu-links { 
+            display: flex; 
+            gap: 8px; 
+            flex-wrap: wrap; 
+        }
+
+        .menu-links a {
+            color: white; 
+            text-decoration: none; 
+            padding: 10px 14px; 
+            border-radius: 6px;
+            font-size: 0.7rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            transition: 0.3s;
+        }
+
+        /* Colores específicos de botones */
+        .btn-inicio { background: var(--c-inicio); }
+        .btn-nosotros { background: var(--c-nosotros); }
+        .btn-rutas { background: var(--c-app); }
+        .btn-soporte { background: var(--c-soporte); border: 2px solid white; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+        .btn-publi { background: var(--c-publicaciones); }
+        .btn-acerca { background: transparent; }
+        .btn-contacto { background: var(--c-contacto); }
+
+        .menu-links a:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
         /* ====== SECCIÓN HERO ====== */
         .support-hero { text-align: center; padding: 40px 20px 20px; }
@@ -191,28 +226,27 @@
         .btn-send:hover { filter: brightness(1.2); }
 
         @media(max-width: 768px) {
-            nav { display: none; }
+            .menu-links { display: none; }
             .support-hero h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <a href="#" class="logo-container">
-        <img src="taxi.jpg" alt="Logo" class="logo-img"> 
-        <div class="logo-text">Digital Transport</div>
+<nav>
+    <a href="index.html" class="logo-container">
+        <img src="taxi.jpg" alt="Logo"> DIGITAL TRANSPORT
     </a>
-    <nav>
-        <a href="index.html" style="background:var(--c-inicio)">Inicio</a>
-        <a href="nosotros.html" style="background:var(--c-nosotros)">Nosotros</a>
-        <a href="app.html" style="background:var(--c-app)">App</a>
-        <a href="soporte.html" class="active" style="background:var(--c-soporte)">Soporte</a>
-        <a href="publicaciones.html" style="background:var(--c-publicaciones)">Publicaciones</a>
-        <a href="acercade.html" >Acerca de </a>
-        <a href="contacto.html" style="background:var(--c-publicaciones)">Contacto</a>
-    </nav>
-</header>
+    <div class="menu-links">
+        <a href="index.html" class="btn-inicio">Inicio</a>
+        <a href="nosotros.html" class="btn-nosotros">Nosotros</a>
+        <a href="app.html" class="btn-rutas">APP</a>
+        <a href="soporte.html" class="btn-soporte">Soporte</a>
+        <a href="publicaciones.html" class="btn-publi">Publicaciones</a>
+        <a href="acercade.html" class="btn-acerca">Acerca de</a>
+        <a href="contacto.html" class="btn-contacto">Contacto</a>
+    </div>
+</nav>
 
 <div class="support-hero">
     <h1>¿En qué podemos ayudarte?</h1>
@@ -221,65 +255,40 @@
 
 <div class="faq-section">
     <h2>Preguntas Frecuentes</h2>
-    
     <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">¿Cómo sé qué taxi me lleva a Otay? <span>+</span></div>
-        <div class="faq-answer">
-            Puedes tomar los taxis Azul con Blanco desde el Centro o los taxis Café con Blanco si vienes desde la 5 y 10. Ambos son directos.
-        </div>
+        <div class="faq-answer">Puedes tomar los taxis Azul con Blanco desde el Centro o los taxis Café con Blanco si vienes desde la 5 y 10. Ambos son directos.</div>
     </div>
-
     <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">¿Hay transporte directo a Playas? <span>+</span></div>
-        <div class="faq-answer">
-            Sí, los taxis Blanco con Franja Azul salen directamente desde la Calle 2da en el Centro de Tijuana.
-        </div>
+        <div class="faq-answer">Sí, los taxis Blanco con Franja Azul salen directamente desde la Calle 2da en el Centro de Tijuana.</div>
     </div>
-
     <div class="faq-item">
         <div class="faq-question" onclick="toggleFaq(this)">¿Los precios suben de noche? <span>+</span></div>
-        <div class="faq-answer">
-            Generalmente, después de las 11:00 PM, los transportes suelen aplicar una tarifa nocturna que puede subir entre $2 y $5 MXN adicionales.
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">¿Dónde tomo el taxi a Rosarito? <span>+</span></div>
-        <div class="faq-answer">
-            Los taxis Blanco con Dorado hacia Rosarito se encuentran principalmente en el Centro o cerca del puente de la 5 y 10.
-        </div>
+        <div class="faq-answer">Generalmente, después de las 11:00 PM, los transportes suelen aplicar una tarifa nocturna que puede subir entre $2 y $5 MXN adicionales.</div>
     </div>
 </div>
 
 <div class="quick-cards">
     <div class="q-card" onclick="autoPregunta('¿Cuáles son las rutas?')">
-        <i>📍</i>
-        <strong>Rutas</strong>
-        <p>Ver cobertura en Tijuana</p>
+        <i>📍</i><strong>Rutas</strong><p>Ver cobertura en Tijuana</p>
     </div>
     <div class="q-card" onclick="autoPregunta('¿Cuál es el precio?')">
-        <i>💵</i>
-        <strong>Tarifas</strong>
-        <p>Costos actualizados</p>
+        <i>💵</i><strong>Tarifas</strong><p>Costos actualizados</p>
     </div>
     <div class="q-card" onclick="autoPregunta('¿Qué taxis hay?')">
-        <i>🚖</i>
-        <strong>Transporte</strong>
-        <p>Tipos de unidades</p>
+        <i>🚖</i><strong>Transporte</strong><p>Tipos de unidades</p>
     </div>
 </div>
 
 <div class="chat-container">
-    <div class="chat-header">
-        <span>🤖</span> Asistente Digital Transport
-    </div>
+    <div class="chat-header"><span>🤖</span> Asistente Digital Transport</div>
     <div class="chat-box" id="chat">
         <div class="message bot">
             👋 <b>¡Hola! Bienvenido a Soporte.</b><br>
             Soy tu guía de transporte en Tijuana. ¿Tienes dudas sobre rutas, precios o unidades? ¡Escríbeme!
         </div>
     </div>
-
     <div class="input-area">
         <input type="text" id="input" placeholder="Escribe tu mensaje aquí..." onkeypress="if(event.key==='Enter') sendMessage()">
         <button class="btn-send" onclick="sendMessage()">ENVIAR</button>
@@ -305,7 +314,6 @@ function sendMessage(){
     if(message === "") return;
 
     let chat = document.getElementById("chat");
-
     let userMsg = document.createElement("div");
     userMsg.className = "message user";
     userMsg.innerText = input.value;
@@ -315,31 +323,19 @@ function sendMessage(){
     botResponse.className = "message bot";
 
     if(message.includes("ruta") || message.includes("donde")){
-        botResponse.innerHTML = "📍 <b>Rutas:</b> Cubrimos Zona Río, Centro, 5 y 10, Otay, Playas, El Florido y Natura. ¿Alguna zona en específico?";
-    }
-    else if(message.includes("precio") || message.includes("costo") || message.includes("cuanto")){
-        botResponse.innerHTML = "💵 <b>Tarifas:</b> Cortas ($15-$18 MXN) y Largas ($23 MXN). Los precios están regulados.";
-    }
-    else if(message.includes("taxi")){
-        botResponse.innerHTML = "🚖 <b>Servicios:</b> Taxis Rojos (Ruta), Guindas, Blanco/Azul (Playas) y Blanco/Amarillo (Santa Fe).";
-    }
-    else if(message.includes("otay")){
-        botResponse.innerHTML = "🎓 <b>Hacia Otay:</b> Usa los Taxis Azul con Blanco (Centro) o Café (5 y 10). Te dejan en UABC y el Tecnológico.";
-    }
-    else {
-        botResponse.innerHTML = "🤖 Entendido. Para temas técnicos, también puedes contactarnos en soporte@digitaltransport.mx";
+        botResponse.innerHTML = "📍 <b>Rutas:</b> Cubrimos Zona Río, Centro, 5 y 10, Otay, Playas, El Florido y Natura.";
+    } else if(message.includes("precio") || message.includes("costo") || message.includes("cuanto")){
+        botResponse.innerHTML = "💵 <b>Tarifas:</b> Cortas ($15-$18 MXN) y Largas ($23 MXN).";
+    } else if(message.includes("taxi")){
+        botResponse.innerHTML = "🚖 <b>Servicios:</b> Taxis Rojos, Guindas, Blanco/Azul (Playas) y Blanco/Amarillo.";
+    } else {
+        botResponse.innerHTML = "🤖 Entendido. Para temas técnicos, contáctanos en soporte@digitaltransport.mx";
     }
 
-    setTimeout(()=>{ 
-        chat.appendChild(botResponse); 
-        chat.scrollTop = chat.scrollHeight; 
-    }, 400);
-
+    setTimeout(()=>{ chat.appendChild(botResponse); chat.scrollTop = chat.scrollHeight; }, 400);
     input.value="";
 }
 </script>
 
 </body>
 </html>
-
-
