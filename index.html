@@ -36,8 +36,8 @@
 
     /* COLORES DE BOTONES CORREGIDOS */
     .btn-inicio { background: var(--c-inicio); }
-    .btn-rutas { background: var(--c-app); } /* Este es el color verde para Rutas/Nosotros */
-    .btn-nosotros { background: var(--c-nosotros); } /* Agregado para que no falle */
+    .btn-rutas { background: var(--c-app); } 
+    .btn-nosotros { background: var(--c-nosotros); } 
     .btn-app { background: var(--c-app); }
     .btn-soporte { background: var(--c-soporte); }
     .btn-publi { background: var(--c-publicaciones); }
@@ -60,6 +60,19 @@
 
     .home-info { max-width: 900px; margin: 40px auto; padding: 0 20px; text-align: center; line-height: 1.6; }
     .home-info h2 { color: var(--dark); font-size: 2rem; }
+
+    /* ESTILOS NUEVOS PARA BOTONES DE DESCARGA */
+    .download-buttons {
+        display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap;
+    }
+    .btn-store {
+        background: #000; color: white; padding: 10px 20px; border-radius: 10px;
+        text-decoration: none; display: flex; align-items: center; gap: 10px; border: 1px solid #444;
+    }
+    .btn-store img { width: 24px; }
+    .btn-store-text { text-align: left; line-height: 1.1; }
+    .btn-store-text span { font-size: 0.6rem; display: block; }
+    .btn-store-text strong { font-size: 0.9rem; }
 
     .info-grid {
         display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -104,6 +117,7 @@
         <a href="app.html" class="btn-rutas" onclick="showSection('rutas')">APP</a>
         <a href="soporte.html" class="btn-soporte">Soporte</a>
         <a href="publicaciones.html" class="btn-publi">Publicaciones</a>
+        <a href="acercade.html" >acerca de</a>
         <a href="contacto.html" class="btn-contacto">Contacto</a>
     </div>
 </nav>
@@ -120,16 +134,27 @@
             <h3>Ver Rutas</h3>
             <p>Explora el catálogo completo de transporte.</p>
         </div>
-        <div class="card-home" onclick="showSection('app-section')">
+        <div class="card-home">
             <div style="font-size: 3rem;">📱</div>
             <h3>Nuestra App</h3>
             <p>Descarga la herramienta para tus traslados.</p>
+            <div class="download-buttons">
+                <a href="#" class="btn-store">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Android">
+                    <div class="btn-store-text"><span>Get it on</span><strong>Google Play</strong></div>
+                </a>
+                <a href="#" class="btn-store">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Apple_logo_black.svg" alt="iOS" style="filter: invert(1);">
+                    <div class="btn-store-text"><span>Download on</span><strong>App Store</strong></div>
+                </a>
+            </div>
         </div>
     </div>
 
     <div class="home-info">
-        <h2>Movilidad Digitalizada</h2>
-        <p>Digital Transport es la plataforma líder en Tijuana para la consulta de rutas de transporte público. Nuestra misión es modernizar la forma en que te mueves por la ciudad.</p>
+        <h2>¿Cansado de esperar sin saber cuándo llegará el transporte?</h2>
+        <p>Digital Transport es la solución inteligente en Tijuana. Planifica tu trayecto y evita perder tiempo. Con nuestra plataforma puedes conocer tiempos de llegada, costos aproximados y hasta saber si el transporte viene lleno, todo desde tu celular.</p>
+        <p>Nuestra misión es modernizar la forma en que te mueves por la ciudad, brindando seguridad y eficiencia en cada viaje.</p>
     </div>
 </div>
 
@@ -233,6 +258,3 @@
 
 </body>
 </html>
-
-
-
