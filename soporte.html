@@ -10,7 +10,6 @@
             --dark-bg: #0b1c2d;
             --gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             --white: #ffffff;
-            /* Colores Menú Rúbrica */
             --c-inicio: #3b82f6;
             --c-nosotros: #10b981;
             --c-app: #f59e0b;
@@ -60,36 +59,11 @@
         .support-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
         .support-hero p { opacity: 0.8; margin-bottom: 30px; }
 
-        /* ====== QUICK CARDS ====== */
-        .quick-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto 40px;
-            padding: 0 20px;
-        }
-        .q-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .q-card:hover { 
-            background: rgba(0, 195, 255, 0.15); 
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        .q-card i { font-size: 2rem; display: block; margin-bottom: 10px; font-style: normal; }
-
-        /* ====== FAQ SECTION (NUEVO) ====== */
+        /* ====== FAQ SECTION ====== */
         .faq-section {
             max-width: 800px;
             width: 95%;
-            margin: 0 auto 50px;
+            margin: 0 auto 40px;
             padding: 0 20px;
         }
         .faq-section h2 { text-align: center; margin-bottom: 25px; color: var(--primary); }
@@ -129,6 +103,31 @@
             color: var(--primary);
             border-bottom: 1px solid rgba(0, 195, 255, 0.2);
         }
+
+        /* ====== QUICK CARDS ====== */
+        .quick-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+        .q-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .q-card:hover { 
+            background: rgba(0, 195, 255, 0.15); 
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        .q-card i { font-size: 2rem; display: block; margin-bottom: 10px; font-style: normal; }
 
         /* ====== CHATBOT ====== */
         .chat-container {
@@ -205,12 +204,11 @@
         <div class="logo-text">Digital Transport</div>
     </a>
     <nav>
-        <a href="index.html" style="background:var(--c-inicio)">Inicio</a>
+        <a href="inicio.html" style="background:var(--c-inicio)">Inicio</a>
         <a href="nosotros.html" style="background:var(--c-nosotros)">Nosotros</a>
         <a href="app.html" style="background:var(--c-app)">App</a>
         <a href="soporte.html" class="active" style="background:var(--c-soporte)">Soporte</a>
         <a href="publicaciones.html" style="background:var(--c-publicaciones)">Publicaciones</a>
-        <a href="acercade.html">Acerca de </a>
         <a href="contacto.html" style="background:var(--c-publicaciones)">Contacto</a>
     </nav>
 </header>
@@ -218,24 +216,6 @@
 <div class="support-hero">
     <h1>¿En qué podemos ayudarte?</h1>
     <p>Centro de Ayuda Inteligente de Digital Transport</p>
-</div>
-
-<div class="quick-cards">
-    <div class="q-card" onclick="autoPregunta('¿Cuáles son las rutas?')">
-        <i>📍</i>
-        <strong>Rutas</strong>
-        <p>Ver cobertura en Tijuana</p>
-    </div>
-    <div class="q-card" onclick="autoPregunta('¿Cuál es el precio?')">
-        <i>💵</i>
-        <strong>Tarifas</strong>
-        <p>Costos actualizados</p>
-    </div>
-    <div class="q-card" onclick="autoPregunta('¿Qué taxis hay?')">
-        <i>🚖</i>
-        <strong>Transporte</strong>
-        <p>Tipos de unidades</p>
-    </div>
 </div>
 
 <div class="faq-section">
@@ -270,6 +250,24 @@
     </div>
 </div>
 
+<div class="quick-cards">
+    <div class="q-card" onclick="autoPregunta('¿Cuáles son las rutas?')">
+        <i>📍</i>
+        <strong>Rutas</strong>
+        <p>Ver cobertura en Tijuana</p>
+    </div>
+    <div class="q-card" onclick="autoPregunta('¿Cuál es el precio?')">
+        <i>💵</i>
+        <strong>Tarifas</strong>
+        <p>Costos actualizados</p>
+    </div>
+    <div class="q-card" onclick="autoPregunta('¿Qué taxis hay?')">
+        <i>🚖</i>
+        <strong>Transporte</strong>
+        <p>Tipos de unidades</p>
+    </div>
+</div>
+
 <div class="chat-container">
     <div class="chat-header">
         <span>🤖</span> Asistente Digital Transport
@@ -288,7 +286,6 @@
 </div>
 
 <script>
-// Función para el Acordeón de FAQ
 function toggleFaq(element) {
     const parent = element.parentElement;
     parent.classList.toggle('active-faq');
@@ -308,13 +305,11 @@ function sendMessage(){
 
     let chat = document.getElementById("chat");
 
-    // Mensaje usuario
     let userMsg = document.createElement("div");
     userMsg.className = "message user";
     userMsg.innerText = input.value;
     chat.appendChild(userMsg);
 
-    // Respuesta inteligente
     let botResponse = document.createElement("div");
     botResponse.className = "message bot";
 
@@ -345,4 +340,3 @@ function sendMessage(){
 
 </body>
 </html>
-
