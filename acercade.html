@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipo | Digital Transport</title>
+    <style>
+        :root {
+            --brand-color: #12b0a6;
+            --dark-bg: #111827;
+            --white: #ffffff;
+            --c-acerca: #6366f1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f4f7f6; }
+
+        /* --- NAVEGACIÓN --- */
+        .nav-global {
+            background: var(--dark-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo-nav { display: flex; align-items: center; gap: 10px; color: white; font-weight: bold; text-decoration: none; }
+        .logo-nav img { width: 35px; height: 35px; border-radius: 5px; background: white; padding: 2px; }
+
+        /* --- GRID DE EQUIPO --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .team-card:hover {
+            border-color: var(--brand-color);
+            transform: translateY(-5px);
+        }
+
+        /* CONTENEDOR DE LA FOTO */
+        .photo-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            background: #e5e7eb;
+            position: relative;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Esto hace que la cara no se deforme */
+            transition: 0.5s;
+        }
+
+        .team-card:hover img {
+            scale: 1.1;
+        }
+
+        .team-info { padding: 20px; }
+        
+        .role-badge {
+            background: var(--brand-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .member-name { font-size: 1.1rem; color: var(--dark-bg); margin-bottom: 8px; font-weight: 700; }
+        .member-desc { font-size: 0.85rem; color: #6b7280; line-height: 1.5; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="nav-global">
+        <a href="#" class="logo-nav">
+            <img src="taxi.jpg" alt="Logo"> Digital Transport
+        </a>
+    </nav>
+
+    <div class="team-grid">
+        
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="nicolas.png" alt="Jesus Nicolas">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Jefe de Proyecto</span>
+                <div class="member-name">Galvan Angulo Jesus Nicolas</div>
+                <p class="member-desc">Líder estratégico responsable de la coordinación general y éxito del proyecto.</p>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="brando.png" alt="Backend Team">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Desarrollador Backend</span>
+                <div class="member-name">Brando Beltran & Jaime Nuñez</div>
+                <p class="member-desc">Expertos en servidores, lógica de datos y seguridad del sistema.</p>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="david.png" alt="Frontend Team">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Desarrollador Frontend</span>
+                <div class="member-name">Brando Beltran & David Gonzales</div>
+                <p class="member-desc">Encargados de la interfaz visual y la experiencia interactiva del usuario.</p>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="aron.png" alt="Analistas">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Analista de Rutas</span>
+                <div class="member-name">Adan López & David Gonzales</div>
+                <p class="member-desc">Optimización de trayectos y análisis de tiempos de transporte en Tijuana.</p>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="aliy.png" alt="Recolectores">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Recolector de Datos</span>
+                <div class="member-name">Ailyn Gutierrez & Yojhan Cruz</div>
+                <p class="member-desc">Investigación de campo para mantener tarifas y horarios actualizados.</p>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="saul.jpg" alt="Marketing">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Marketing / Difusión</span>
+                <div class="member-name">Ilse Hernández & Jonathan Rodriguez</div>
+                <p class="member-desc">Promoción de la plataforma y manejo de la identidad digital.</p>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="felix.jpg" alt="Ilse Soporte">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Soporte al Usuario</span>
+                <div class="member-name">Hernández Félix Ilse</div>
+                <p class="member-desc">Atención directa y resolución de dudas para nuestros usuarios.</p>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="FOTOS/contador.jpg" alt="Finanzas">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Finanzas</span>
+                <div class="member-name">Área de Contabilidad</div>
+                <p class="member-desc">Control presupuestario y viabilidad financiera del proyecto.</p>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="photo-container">
+                <img src="FOTOS/legal.jpg" alt="Legal">
+            </div>
+            <div class="team-info">
+                <span class="role-badge">Área Legal</span>
+                <div class="member-name">Asesoría Jurídica</div>
+                <p class="member-desc">Cumplimiento de normas legales y protección de datos.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
