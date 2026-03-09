@@ -7,27 +7,85 @@
     <style>
         :root {
             --brand-color: #12b0a6;
-            --dark-bg: #111827;
+            --dark-bg: #0b1c2d; /* Color oscuro del menú según imagen */
             --white: #ffffff;
-            --c-acerca: #6366f1;
+            
+            /* Colores exactos de los botones según imagen */
+            --c-inicio: #3b82f6; 
+            --c-nosotros: #7a0366; 
+            --c-app: #f59e0b;
+            --c-soporte: #8b5cf6; 
+            --c-publicaciones: #ec4899;
+            --c-acercade: #1f2937;
+            --c-contacto: #ef4444; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: #f4f7f6; }
 
-        /* --- NAVEGACIÓN --- */
-        .nav-global {
-            background: var(--dark-bg);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
+        /* --- NAVEGACIÓN CORREGIDA --- */
+        nav {
+            display: flex; 
+            justify-content: space-between; 
             align-items: center;
-            position: sticky;
-            top: 0;
+            padding: 12px 40px; 
+            background: var(--dark-bg); 
+            position: sticky; 
+            top: 0; 
             z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-        .logo-nav { display: flex; align-items: center; gap: 10px; color: white; font-weight: bold; text-decoration: none; }
-        .logo-nav img { width: 35px; height: 35px; border-radius: 5px; background: white; padding: 2px; }
+
+        .logo-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            color: white; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .logo-container img { 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 8px; 
+            background: white; 
+            padding: 2px; 
+        }
+        
+        .menu-links { 
+            display: flex; 
+            gap: 8px; 
+            flex-wrap: wrap; 
+            align-items: center;
+        }
+
+        .menu-links a {
+            color: white; 
+            text-decoration: none; 
+            padding: 10px 14px; 
+            border-radius: 6px;
+            font-size: 0.7rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            transition: 0.3s;
+        }
+
+        /* Asignación de colores a botones */
+        .btn-inicio { background: var(--c-inicio); }
+        .btn-nosotros { background: var(--c-nosotros); }
+        .btn-rutas { background: var(--c-app); }
+        .btn-soporte { background: var(--c-soporte); }
+        .btn-publi { background: var(--c-publicaciones); }
+        .btn-acerca { background: transparent; color: white !important; } /* Texto plano según imagen */
+        .btn-contacto { background: var(--c-contacto); }
+
+        .menu-links a:hover { 
+            transform: translateY(-2px); 
+            filter: brightness(1.1); 
+        }
 
         /* --- GRID DE EQUIPO --- */
         .team-grid {
@@ -54,7 +112,6 @@
             transform: translateY(-5px);
         }
 
-        /* CONTENEDOR DE LA FOTO */
         .photo-container {
             width: 100%;
             height: 250px;
@@ -66,13 +123,11 @@
         .photo-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Esto hace que la cara no se deforme */
+            object-fit: cover;
             transition: 0.5s;
         }
 
-        .team-card:hover img {
-            scale: 1.1;
-        }
+        .team-card:hover img { scale: 1.1; }
 
         .team-info { padding: 20px; }
         
@@ -95,22 +150,21 @@
 <body>
 
     <nav>
-    <div class="logo-container">
-        <img src="taxi.jpg" alt="Logo"> DIGITAL TRANSPORT
-    </div>
-    <div class="menu-links">
-        <a href="index.html" class="btn-inicio" onclick="showSection('home')">Inicio</a>
-        <a href="nosotros.html" class="btn-nosotros">Nosotros</a>
-        <a href="app.html" class="btn-rutas" onclick="showSection('rutas')">APP</a>
-        <a href="soporte.html" class="btn-soporte">Soporte</a>
-        <a href="publicaciones.html" class="btn-publi">Publicaciones</a>
-        <a href="acercade.html" >acerca de</a>
-        <a href="contacto.html" class="btn-contacto">Contacto</a>
-    </div>
-</nav>
+        <div class="logo-container">
+            <img src="taxi.jpg" alt="Logo"> DIGITAL TRANSPORT
+        </div>
+        <div class="menu-links">
+            <a href="index.html" class="btn-inicio">Inicio</a>
+            <a href="nosotros.html" class="btn-nosotros">Nosotros</a>
+            <a href="app.html" class="btn-rutas">APP</a>
+            <a href="soporte.html" class="btn-soporte">Soporte</a>
+            <a href="publicaciones.html" class="btn-publi">Publicaciones</a>
+            <a href="acercade.html" class="btn-acerca">Acerca de</a>
+            <a href="contacto.html" class="btn-contacto">Contacto</a>
+        </div>
+    </nav>
 
     <div class="team-grid">
-        
         <div class="team-card">
             <div class="photo-container">
                 <img src="nicolas.png" alt="Jesus Nicolas">
@@ -209,9 +263,7 @@
                 <p class="member-desc">Cumplimiento de normas legales y protección de datos.</p>
             </div>
         </div>
-
     </div>
 
 </body>
-
 </html>
