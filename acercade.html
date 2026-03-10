@@ -3,156 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipo | Digital Transport</title>
+    <title>Equipo y App | Digital Transport</title>
     <style>
         :root {
             --brand-color: #12b0a6;
-            --dark-bg: #0b1c2d; /* Color oscuro del menú según imagen */
+            --dark-bg: #0b1c2d;
             --white: #ffffff;
-            
-            /* Colores exactos de los botones según imagen */
+            /* Tus colores de botones exactos */
             --c-inicio: #3b82f6; 
             --c-nosotros: #7a0366; 
             --c-app: #f59e0b;
             --c-soporte: #8b5cf6; 
             --c-publicaciones: #ec4899;
-            --c-acercade: #1f2937;
             --c-contacto: #ef4444; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #f4f7f6; }
+        body { background: #f4f7f6; color: #333; }
 
-        /* --- NAVEGACIÓN CORREGIDA --- */
+        /* --- NAVEGACIÓN --- */
         nav {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            padding: 12px 40px; 
-            background: var(--dark-bg); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 40px; background: var(--dark-bg); position: sticky;
+            top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
-        .logo-container { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            color: white; 
-            font-weight: bold; 
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        .logo-container img { 
-            width: 40px; 
-            height: 40px; 
-            border-radius: 8px; 
-            background: white; 
-            padding: 2px; 
-        }
+        .logo-container { display: flex; align-items: center; gap: 12px; color: white; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
+        .logo-container img { width: 40px; height: 40px; border-radius: 8px; background: white; padding: 2px; }
+        .menu-links { display: flex; gap: 8px; flex-wrap: wrap; }
+        .menu-links a { color: white; text-decoration: none; padding: 10px 14px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; transition: 0.3s; }
         
-        .menu-links { 
-            display: flex; 
-            gap: 8px; 
-            flex-wrap: wrap; 
-            align-items: center;
-        }
-
-        .menu-links a {
-            color: white; 
-            text-decoration: none; 
-            padding: 10px 14px; 
-            border-radius: 6px;
-            font-size: 0.7rem; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            transition: 0.3s;
-        }
-
-        /* Asignación de colores a botones */
         .btn-inicio { background: var(--c-inicio); }
         .btn-nosotros { background: var(--c-nosotros); }
         .btn-rutas { background: var(--c-app); }
         .btn-soporte { background: var(--c-soporte); }
         .btn-publi { background: var(--c-publicaciones); }
-        .btn-acerca { background: transparent; color: white !important; } /* Texto plano según imagen */
+        .btn-acerca { background: transparent; color: white !important; }
         .btn-contacto { background: var(--c-contacto); }
 
-        .menu-links a:hover { 
-            transform: translateY(-2px); 
-            filter: brightness(1.1); 
+        /* --- SECCIÓN INFO DE LA APP --- */
+        .app-info-section {
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2f1 100%);
+            padding: 60px 20px; text-align: center;
+            border-bottom: 4px solid var(--brand-color);
         }
+        .app-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+        .app-text { flex: 1; text-align: left; min-width: 300px; }
+        .app-text h2 { color: var(--dark-bg); font-size: 2.2rem; margin-bottom: 15px; }
+        .app-text span { color: var(--brand-color); }
+        .app-features { list-style: none; margin-top: 25px; }
+        .app-features li { margin-bottom: 15px; display: flex; align-items: center; gap: 12px; font-size: 1rem; color: #4b5563; }
+        .check-icon { color: var(--brand-color); font-weight: bold; font-size: 1.2rem; }
+        .app-image img { width: 100%; max-width: 450px; border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
 
         /* --- GRID DE EQUIPO --- */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .section-header { text-align: center; padding: 60px 0 20px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--dark-bg); text-transform: uppercase; letter-spacing: 2px; }
+        .underline { width: 80px; height: 5px; background: var(--brand-color); margin: 10px auto; border-radius: 10px; }
 
-        .team-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            text-align: center;
-            border: 2px solid transparent;
-            transition: 0.3s;
-        }
-
-        .team-card:hover {
-            border-color: var(--brand-color);
-            transform: translateY(-5px);
-        }
-
-        .photo-container {
-            width: 100%;
-            height: 250px;
-            overflow: hidden;
-            background: #e5e7eb;
-            position: relative;
-        }
-
-        .photo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.5s;
-        }
-
-        .team-card:hover img { scale: 1.1; }
-
-        .team-info { padding: 20px; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 20px; max-width: 1200px; margin: 0 auto 80px; }
+        .team-card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; transition: 0.4s; border: 1px solid #eee; }
+        .team-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: var(--brand-color); }
         
-        .role-badge {
-            background: var(--brand-color);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
+        .photo-container { width: 100%; height: 280px; overflow: hidden; background: #f3f4f6; }
+        .photo-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .team-card:hover img { transform: scale(1.08); }
 
-        .member-name { font-size: 1.1rem; color: var(--dark-bg); margin-bottom: 8px; font-weight: 700; }
-        .member-desc { font-size: 0.85rem; color: #6b7280; line-height: 1.5; }
+        .team-info { padding: 25px; }
+        .role-badge { background: #e0f2f1; color: var(--brand-color); padding: 6px 18px; border-radius: 50px; font-size: 0.75rem; font-weight: 800; display: inline-block; margin-bottom: 15px; text-transform: uppercase; }
+        .member-name { font-size: 1.2rem; color: var(--dark-bg); margin-bottom: 10px; font-weight: 800; }
+        .member-desc { font-size: 0.9rem; color: #6b7280; line-height: 1.6; }
 
+        footer { background: var(--dark-bg); color: white; text-align: center; padding: 40px; margin-top: 40px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo-container">
-            <img src="taxi.jpg" alt="Logo"> DIGITAL TRANSPORT
-        </div>
+        <div class="logo-container"><img src="taxi.jpg" alt="Logo"> DIGITAL TRANSPORT</div>
         <div class="menu-links">
             <a href="index.html" class="btn-inicio">Inicio</a>
             <a href="nosotros.html" class="btn-nosotros">Nosotros</a>
@@ -164,106 +91,116 @@
         </div>
     </nav>
 
+    <section class="app-info-section">
+        <div class="app-container">
+            <div class="app-text">
+                <h2>Tu ciudad, <span>Tus rutas.</span></h2>
+                <p>Digital Transport TJ transforma la manera en que te mueves por Tijuana. Olvida las esperas inciertas y toma el control de tu tiempo.</p>
+                <ul class="app-features">
+                    <li><span class="check-icon">✓</span> <b>Visualización en tiempo real</b> de las rutas más populares.</li>
+                    <li><span class="check-icon">✓</span> <b>Directorio completo</b> de taxis (Rojos, Guindas, Blancos).</li>
+                    <li><span class="check-icon">✓</span> <b>Modo Ahorro</b>: Encuentra el transbordo más barato al Tec o UABC.</li>
+                    <li><span class="check-icon">✓</span> <b>Botón de Emergencia</b>: Viaja seguro con monitoreo GPS.</li>
+                </ul>
+            </div>
+            <div class="app-image">
+                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=600" alt="Smartphone App">
+            </div>
+        </div>
+    </section>
+
+    <div class="section-header">
+        <h2>Nuestro Equipo Pro</h2>
+        <div class="underline"></div>
+    </div>
+
     <div class="team-grid">
         <div class="team-card">
-            <div class="photo-container">
-                <img src="nicolas.png" alt="Jesus Nicolas">
-            </div>
+            <div class="photo-container"><img src="nicolas.png" alt="Nicolas"></div>
             <div class="team-info">
-                <span class="role-badge">Jefe de Proyecto</span>
+                <span class="role-badge">Dirección General</span>
                 <div class="member-name">Galvan Angulo Jesus Nicolas</div>
-                <p class="member-desc">Líder estratégico responsable de la coordinación general y éxito del proyecto.</p>
+                <p class="member-desc">Líder del proyecto encargado de la gestión de recursos y visión tecnológica de la plataforma.</p>
             </div>
         </div>
 
         <div class="team-card">
-            <div class="photo-container">
-                <img src="brando.png" alt="Backend Team">
-            </div>
+            <div class="photo-container"><img src="brando.png" alt="Backend"></div>
             <div class="team-info">
-                <span class="role-badge">Desarrollador Backend</span>
+                <span class="role-badge">Arquitectura de Datos</span>
                 <div class="member-name">Brando Beltran & Jaime Nuñez</div>
-                <p class="member-desc">Expertos en servidores, lógica de datos y seguridad del sistema.</p>
+                <p class="member-desc">Expertos en el procesamiento masivo de rutas y la estabilidad del servidor central.</p>
             </div>
         </div>
 
         <div class="team-card">
-            <div class="photo-container">
-                <img src="david.png" alt="Frontend Team">
-            </div>
+            <div class="photo-container"><img src="david.png" alt="Frontend"></div>
             <div class="team-info">
-                <span class="role-badge">Desarrollador Frontend</span>
+                <span class="role-badge">Diseño de Interfaz</span>
                 <div class="member-name">Brando Beltran & David Gonzales</div>
-                <p class="member-desc">Encargados de la interfaz visual y la experiencia interactiva del usuario.</p>
+                <p class="member-desc">Responsables de que la app sea fácil de usar para todos los tijuanenses, de jóvenes a adultos.</p>
             </div>
         </div>
 
         <div class="team-card">
-            <div class="photo-container">
-                <img src="aron.png" alt="Analistas">
-            </div>
+            <div class="photo-container"><img src="aron.png" alt="Analistas"></div>
             <div class="team-info">
-                <span class="role-badge">Analista de Rutas</span>
+                <span class="role-badge">Análisis de Movilidad</span>
                 <div class="member-name">Adan López & David Gonzales</div>
-                <p class="member-desc">Optimización de trayectos y análisis de tiempos de transporte en Tijuana.</p>
+                <p class="member-desc">Estudian el tráfico de la Vía Rápida y el Bulevar para ofrecer los mejores tiempos estimados.</p>
             </div>
         </div>
 
         <div class="team-card">
-            <div class="photo-container">
-                <img src="aliy.png" alt="Recolectores">
-            </div>
+            <div class="photo-container"><img src="aliy.png" alt="Recolectores"></div>
             <div class="team-info">
-                <span class="role-badge">Recolector de Datos</span>
+                <span class="role-badge">Inteligencia de Campo</span>
                 <div class="member-name">Ailyn Gutierrez & Yojhan Cruz</div>
-                <p class="member-desc">Investigación de campo para mantener tarifas y horarios actualizados.</p>
+                <p class="member-desc">Verifican que cada parada y cada tarifa mostrada en la app sea 100% real y actualizada.</p>
             </div>
         </div>
 
         <div class="team-card">
-            <div class="photo-container">
-                <img src="saul.jpg" alt="Marketing">
-            </div>
+            <div class="photo-container"><img src="saul.jpg" alt="Marketing"></div>
             <div class="team-info">
-                <span class="role-badge">Marketing / Difusión</span>
+                <span class="role-badge">Comunicación y Marca</span>
                 <div class="member-name">Ilse Hernández & Jonathan Rodriguez</div>
-                <p class="member-desc">Promoción de la plataforma y manejo de la identidad digital.</p>
+                <p class="member-desc">Creativos encargados de las redes sociales y de que Digital Transport llegue a cada colonia.</p>
             </div>
         </div>
 
         <div class="team-card">
-            <div class="photo-container">
-                <img src="felix.jpg" alt="Ilse Soporte">
-            </div>
+            <div class="photo-container"><img src="felix.jpg" alt="Soporte"></div>
             <div class="team-info">
-                <span class="role-badge">Soporte al Usuario</span>
+                <span class="role-badge">Atención al Usuario</span>
                 <div class="member-name">Hernández Félix Ilse</div>
-                <p class="member-desc">Atención directa y resolución de dudas para nuestros usuarios.</p>
+                <p class="member-desc">La voz amiga que resuelve tus dudas y escucha tus sugerencias para mejorar la aplicación.</p>
             </div>
         </div>
 
         <div class="team-card">
-            <div class="photo-container">
-                <img src="FOTOS/contador.jpg" alt="Finanzas">
-            </div>
+            <div class="photo-container"><img src="FOTOS/contador.jpg" alt="Finanzas"></div>
             <div class="team-info">
-                <span class="role-badge">Finanzas</span>
-                <div class="member-name">Área de Contabilidad</div>
-                <p class="member-desc">Control presupuestario y viabilidad financiera del proyecto.</p>
+                <span class="role-badge">Administración</span>
+                <div class="member-name">Área Contable</div>
+                <p class="member-desc">Encargados de la transparencia financiera y el manejo de presupuestos operativos.</p>
             </div>
         </div>
 
         <div class="team-card">
-            <div class="photo-container">
-                <img src="FOTOS/legal.jpg" alt="Legal">
-            </div>
+            <div class="photo-container"><img src="FOTOS/legal.jpg" alt="Legal"></div>
             <div class="team-info">
-                <span class="role-badge">Área Legal</span>
+                <span class="role-badge">Protección Legal</span>
                 <div class="member-name">Asesoría Jurídica</div>
-                <p class="member-desc">Cumplimiento de normas legales y protección de datos.</p>
+                <p class="member-desc">Garantizan que tu información esté protegida y que cumplamos con todas las leyes de transporte.</p>
             </div>
         </div>
     </div>
+
+    <footer>
+        <p><b>Digital Transport TJ © 2026</b></p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">Tecnología al servicio de la movilidad en la frontera.</p>
+    </footer>
 
 </body>
 </html>
