@@ -28,7 +28,6 @@
             font-size: 11px; font-weight: bold; text-transform: uppercase; transition: 0.3s; cursor: pointer;
         }
 
-        /* Estilos de tus botones */
         .btn-inicio { background: var(--c-inicio); }
         .btn-nosotros { background: var(--c-nosotros); }
         .btn-rutas { background: var(--c-app); }
@@ -36,7 +35,6 @@
         .btn-publi { background: var(--c-publi); }
         .btn-contacto { background: var(--c-contacto); }
 
-        /* Lógica de Secciones */
         section { display: none; padding: 40px 20px; max-width: 1100px; margin: 0 auto; }
         section.active { display: block; animation: fadeIn 0.5s ease; }
 
@@ -45,7 +43,6 @@
         .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #eee; }
         .point-tag { background: #e0f2f1; color: var(--brand-color); padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 800; margin-bottom: 10px; display: inline-block; }
 
-        /* Chatbot */
         .wa-float { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--wa-green); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .chat-box { position: fixed; bottom: 90px; right: 20px; width: 300px; height: 400px; background: #e5ddd5; border-radius: 15px; display: none; flex-direction: column; z-index: 2000; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .chat-header { background: #075e54; color: white; padding: 15px; font-weight: bold; }
@@ -173,7 +170,7 @@
     <div class="chat-box" id="chatWindow">
         <div class="chat-header">Digital Transport Bot</div>
         <div class="chat-body" id="chatMsgs">
-            <div class="msg bot">¡Hola! ¿En qué sección puedo ayudarte hoy?</div>
+            <div class="msg bot">¡Hola! Soy el encargado de Calidad. ¿Quieres saber sobre nuestras 7M o el mantenimiento?</div>
         </div>
         <div class="chat-footer">
             <input type="text" id="chatInput" placeholder="Escribe aquí..."><button onclick="enviarChat()">></button>
@@ -195,14 +192,32 @@
             const input = document.getElementById('chatInput');
             const box = document.getElementById('chatMsgs');
             if(!input.value.trim()) return;
+
+            // Mensaje del usuario
             box.innerHTML += `<div class="msg user">${input.value}</div>`;
+            const query = input.value.toLowerCase();
             input.value = "";
             box.scrollTop = box.scrollHeight;
+
+            // Respuesta inteligente del bot
             setTimeout(() => {
-                box.innerHTML += `<div class="msg bot">Entendido. ¿Deseas ver más sobre esa sección?</div>`;
+                let reply = "";
+                if (query.includes("hola")) reply = "¡Hola! Bienvenido. ¿En qué puedo ayudarte?";
+                else if (query.includes("7m")) reply = "Las 7M son: Materia Prima, Mano de Obra, Método, Máquinas, Medio Ambiente, Medición y Managing.";
+                else if (query.includes("mantenimiento")) reply = "Hacemos mantenimiento preventivo diario a las 3:00 AM.";
+                else if (query.includes("vacante") || query.includes("trabajo")) reply = "¡Sí! Busca la sección de Vacantes en el menú para postularte.";
+                else if (query.includes("ruta")) reply = "Mapeamos Ruta Violeta, SITT y Taxis Blancos.";
+                else reply = "No estoy seguro de eso, pero puedes revisar nuestras secciones de Producción y Calidad.";
+
+                box.innerHTML += `<div class="msg bot">${reply}</div>`;
                 box.scrollTop = box.scrollHeight;
             }, 800);
         }
+
+        // Enviar con Enter
+        document.getElementById('chatInput').addEventListener("keypress", function(e) {
+            if (e.key === "Enter") enviarChat();
+        });
     </script>
 </body>
 </html>
