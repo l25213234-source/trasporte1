@@ -3,221 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Transport TJ | Sistema de Producción</title>
+    <title>Digital Transport TJ | Engineering & Mobility</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --brand-color: #12b0a6;
-            --dark-bg: #0b1c2d;
+            --brand: #12b0a6;
+            --dark: #0f172a;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --white: #ffffff;
             --wa-green: #25d366;
-            --c-inicio: #3b82f6; --c-nosotros: #7a0366; --c-app: #f59e0b;
-            --c-soporte: #8b5cf6; --c-publi: #ec4899; --c-contacto: #ef4444;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; color: #333; scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: var(--bg); color: var(--dark); scroll-behavior: smooth; }
 
+        /* HEADER */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 40px; background: var(--dark-bg); position: sticky; top: 0; z-index: 1000;
+            padding: 15px 5%; background: var(--dark); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-        .logo { color: white; font-weight: bold; display: flex; align-items: center; gap: 10px; }
-        .logo img { width: 35px; border-radius: 5px; }
+        .logo { color: var(--white); font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--brand); }
+        .logo img { width: 35px; border-radius: 8px; border: 2px solid var(--brand); }
         
-        .menu-links { display: flex; gap: 5px; flex-wrap: wrap; }
-        .menu-links a { 
-            color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; 
-            font-size: 11px; font-weight: bold; text-transform: uppercase; transition: 0.3s; cursor: pointer;
-        }
+        .menu-links a { color: var(--white); text-decoration: none; padding: 10px 18px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; transition: 0.3s; margin-left: 8px; cursor: pointer; }
+        .menu-links a:hover { background: var(--brand); transform: translateY(-2px); }
 
-        .btn-inicio { background: var(--c-inicio); }
-        .btn-nosotros { background: var(--c-nosotros); }
-        .btn-rutas { background: var(--c-app); }
-        .btn-soporte { background: var(--c-soporte); }
-        .btn-publi { background: var(--c-publi); }
-        .btn-contacto { background: var(--c-contacto); }
+        /* SECCIONES ANIMADAS */
+        section { display: none; padding: 60px 5%; max-width: 1100px; margin: 0 auto; min-height: 80vh; }
+        section.active { display: block; animation: fadeIn 0.6s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        section { display: none; padding: 40px 20px; max-width: 1100px; margin: 0 auto; }
-        section.active { display: block; animation: fadeIn 0.5s ease; }
+        .card { background: var(--white); padding: 35px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 30px; border: 1px solid #f1f5f9; position: relative; overflow: hidden; }
+        .point-tag { background: var(--brand); color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; margin-bottom: 15px; display: inline-block; text-transform: uppercase; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* TABLAS Y GANTT */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+        th { background: #f1f5f9; padding: 12px; text-align: left; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+        .gantt-bar { height: 12px; background: var(--brand); border-radius: 6px; }
 
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #eee; }
-        .point-tag { background: #e0f2f1; color: var(--brand-color); padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 800; margin-bottom: 10px; display: inline-block; }
-
-        .wa-float { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--wa-green); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .chat-box { position: fixed; bottom: 90px; right: 20px; width: 300px; height: 400px; background: #e5ddd5; border-radius: 15px; display: none; flex-direction: column; z-index: 2000; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .chat-header { background: #075e54; color: white; padding: 15px; font-weight: bold; }
-        .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 8px 12px; border-radius: 8px; font-size: 13px; max-width: 80%; }
+        /* WHATSAPP BOT */
+        .wa-float { position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: var(--wa-green); border-radius: 22px; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); transition: 0.3s; }
+        .chat-box { position: fixed; bottom: 105px; right: 25px; width: 340px; height: 500px; background: #e5ddd5; border-radius: 25px; display: none; flex-direction: column; z-index: 2000; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .chat-header { background: #075e54; color: white; padding: 20px; font-weight: 800; font-size: 0.9rem; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg { padding: 12px 16px; border-radius: 18px; font-size: 0.85rem; max-width: 85%; }
         .bot { background: white; align-self: flex-start; }
-        .user { background: #dcf8c6; align-self: flex-end; }
-        .chat-footer { padding: 10px; background: white; display: flex; gap: 5px; }
-        .chat-footer input { flex: 1; border: 1px solid #ddd; border-radius: 20px; padding: 8px; outline: none; }
+        .user { background: #dcf8c6; align-self: flex-end; color: #075e54; font-weight: 600; }
+        .chat-footer { padding: 15px; background: #f0f0f0; display: flex; gap: 10px; }
+        .chat-footer input { flex: 1; border: none; border-radius: 25px; padding: 12px 20px; outline: none; }
+        .chat-footer button { background: #075e54; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
 
-        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; }
-        button { cursor: pointer; border: none; font-weight: bold; border-radius: 8px; transition: 0.3s; }
+        input, select, textarea { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; }
+        .btn-prime { background: var(--brand); color: white; padding: 15px; width: 100%; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; transition: 0.3s; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo"><img src="taxi.jpg"> DIGITAL TRANSPORT</div>
+        <div class="logo"><img src="taxi.jpg"> DIGITAL <span>TRANSPORT</span></div>
         <div class="menu-links">
-            <a href="index.html" class="btn-inicio">Inicio</a>
-            <a onclick="showSection('produccion')" class="btn-nosotros">Producción</a>
-            <a onclick="showSection('encuesta')" class="btn-soporte">Encuesta</a>
-            <a onclick="showSection('vacantes')" class="btn-contacto">Vacantes</a>
+            <a onclick="showSection('produccion')">Producción</a>
+            <a onclick="showSection('inventario')">Inventario (8.8)</a>
+            <a onclick="showSection('programa')">Programa (8.12)</a>
+            <a onclick="showSection('vacantes')">Vacantes</a>
+            <a onclick="showSection('encuesta')">Calidad</a>
         </div>
     </nav>
 
     <section id="produccion" class="active">
-        <h2 style="text-align: center; color: var(--dark-bg);">GESTIÓN DE PRODUCCIÓN DIGITAL</h2>
-        <p style="text-align: center; font-size: 0.9rem; margin-bottom: 40px;">Tecnologia al alcance de todos en tijuana.</p>
-
+        <h1 style="text-align: center;">Ingeniería de Producción</h1>
         <div class="card">
-            <span class="point-tag"></span>
-            <h3>Especificaciones del Servicio Detallada</h3>
-            <p style="font-size: 0.9rem;">Digital Transport es una plataforma de visualización de rutas en tiempo real para Tijuana. Ofrece mapas interactivos de la Ruta Violeta, SITT y Taxis Blancos, calculando tiempos de espera y costos de transbordo mediante algoritmos de navegación inteligente.</p>
+            <span class="point-tag">Puntos 1-3</span>
+            <h2>Especificación Técnica</h2>
+            <p>Se ofrece un servicio de mapeo dinámico basado en <strong>Cloud Computing</strong>. Se procesan datos de la Ruta Violeta y SITT mediante algoritmos de navegación para entregar tiempos de arribo exactos.</p>
         </div>
-
         <div class="card">
-            <span class="point-tag"></span>
-            <h3>Tecnología Utilizada</h3>
-            <p style="font-size: 0.9rem;">Utilizamos una infraestructura basada en <strong>Cloud Computing</strong> (Amazon Web Services), procesamiento de datos mediante <strong>APIs de Geocodificación</strong> y una interfaz responsiva desarrollada en HTML5/JS para un acceso rápido desde cualquier dispositivo móvil.</p>
-        </div>
-
-        <div class="card">
-            <span class="point-tag"></span>
-            <h3>Mantenimiento de Equipo y Estrategias</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.85rem;">
-                <div style="background: #fff3e0; padding: 10px; border-radius: 8px;">
-                    <strong>Mantenimiento Preventivo:</strong> Revisión diaria de servidores a las 3:00 AM y actualización semanal de bases de datos de rutas para evitar errores en la información.
+            <span class="point-tag">Punto 5 y 6</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3>Materia Prima</h3>
+                    <ul style="font-size: 0.85rem;">
+                        <li>Coordenadas GPS IMOS.</li>
+                        <li>Base de datos de paradas.</li>
+                        <li>Tarifarios municipales.</li>
+                    </ul>
                 </div>
-                <div style="background: #e8f5e9; padding: 10px; border-radius: 8px;">
-                    <strong>Mantenimiento Correctivo:</strong> Protocolo de respuesta de 2 horas ante caída de servidores y depuración de bugs reportados por los usuarios en la sección de soporte.
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <span class="point-tag"></span>
-            <h3>Diagrama de Proceso de Producción</h3>
-            <div style="text-align: center; background: #f9f9f9; padding: 20px; border-radius: 10px;">
-                <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
-                    <div> <strong>Entrada</strong><br><small>Captura de rutas</small></div>
-                    <div>➔</div>
-                    <div> <strong>Proceso</strong><br><small>Mapeo digital</small></div>
-                    <div>➔</div>
-                    <div> <strong>Salida</strong><br><small>App Actualizada</small></div>
+                <div>
+                    <h3>Proveedores</h3>
+                    <ul style="font-size: 0.85rem;">
+                        <li>AWS (Servidores).</li>
+                        <li>Google Enterprise (Mapas).</li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div>
-                <span class="point-tag"></span>
-                <h3>Materia Prima</h3>
-                <ul style="font-size: 0.85rem;">
-                    <li>Base de datos de paradas oficiales.</li>
-                    <li>Coordenadas GPS en tiempo real.</li>
-                    <li>Tarifario vigente del IMOS.</li>
-                </ul>
-            </div>
-            <div>
-                <span class="point-tag"></span>
-                <h3>Selección de Proveedores</h3>
-                <ul style="font-size: 0.85rem;">
-                    <li><strong>Google Maps:</strong> Proveedor de cartografía.</li>
-                    <li><strong>AWS:</strong> Proveedor de servidores.</li>
-                    <li><strong>IMOS:</strong> Fuente de datos legales.</li>
-                </ul>
+    <section id="inventario">
+        <h1>Control de Inventarios</h1>
+        <div class="card">
+            <span class="point-tag">Punto 8.8</span>
+            <h2>Gestión de Recursos Digitales</h2>
+            <p style="font-size: 0.9rem;">Se establece un control estricto sobre los activos digitales para garantizar la continuidad del servicio.</p>
+            <table>
+                <tr>
+                    <th>Activo (Insumo)</th>
+                    <th>Punto de Reorden</th>
+                    <th>Cantidad Mínima</th>
+                </tr>
+                <tr>
+                    <td>Almacenamiento AWS</td>
+                    <td>85% de capacidad</td>
+                    <td>500 GB Libres</td>
+                </tr>
+                <tr>
+                    <td>Créditos API Maps</td>
+                    <td>20% saldo restante</td>
+                    <td>5,000 Peticiones</td>
+                </tr>
+                <tr>
+                    <td>Licencias SSL</td>
+                    <td>30 días antes de vencer</td>
+                    <td>1 Licencia activa</td>
+                </tr>
+            </table>
+            <p style="font-size: 0.8rem; margin-top: 15px; color: #64748b;">* El reabastecimiento se gestiona mediante requisiciones automáticas a proveedores registrados.</p>
+        </div>
+    </section>
+
+    <section id="programa">
+        <h1>Programa de Producción</h1>
+        <div class="card">
+            <span class="point-tag">Punto 8.12.1</span>
+            <h2>Cronograma de Actividades</h2>
+            <table>
+                <tr>
+                    <th>Actividad</th>
+                    <th>Responsable</th>
+                    <th>Periodo</th>
+                </tr>
+                <tr>
+                    <td>Levantamiento de Datos</td>
+                    <td>Analistas de Campo</td>
+                    <td>Semana 1-2</td>
+                </tr>
+                <tr>
+                    <td>Mapeo y Programación</td>
+                    <td>Ing. de Software</td>
+                    <td>Semana 3-5</td>
+                </tr>
+                <tr>
+                    <td>Pruebas de Calidad</td>
+                    <td>Equipo QA</td>
+                    <td>Semana 6</td>
+                </tr>
+                <tr>
+                    <td><strong>Lanzamiento</strong></td>
+                    <td>Dirección General</td>
+                    <td><strong>Semana 7</strong></td>
+                </tr>
+            </table>
+        </div>
+        <div class="card">
+            <span class="point-tag">Punto 8.12.2</span>
+            <h2>Gráfica de Gantt (Visual)</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                <div>
+                    <small>Fase 1: Recolección</small>
+                    <div style="width: 30%;" class="gantt-bar"></div>
+                </div>
+                <div>
+                    <small>Fase 2: Desarrollo</small>
+                    <div style="width: 60%; margin-left: 20%;" class="gantt-bar" style="background: var(--accent);"></div>
+                </div>
+                <div>
+                    <small>Fase 3: Calidad y Arranque</small>
+                    <div style="width: 20%; margin-left: 80%;" class="gantt-bar" style="background: var(--wa-green);"></div>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="vacantes">
-        <div class="card" style="background: var(--dark-bg); color: white;">
-            <span class="point-tag"></span>
-            <h3 style="color: var(--brand-color);">Mano de Obra y Bolsa de Trabajo</h3>
-            <p style="font-size: 0.85rem;">Requerimos analistas con habilidad en geografía urbana de Tijuana. <strong>¡Ofertamos vacantes actualmente!</strong></p>
+        <h1>Bolsa de Trabajo</h1>
+        <div class="card" style="background: var(--dark); color: white;">
+            <h2>Únete al Equipo</h2>
             <form id="formVacante">
-                <input type="text" placeholder="Nombre y Habilidad (Ej. Programador / Analista)" required>
-                <input type="email" placeholder="Correo electrónico" required>
-                <button type="submit" style="background: var(--brand-color); color:white; padding: 10px; width: 100%;">ENVIAR POSTULACIÓN</button>
+                <input type="text" placeholder="Nombre completo" required>
+                <select style="color: #333;">
+                    <option>Analista de Datos</option>
+                    <option>Programador Web</option>
+                </select>
+                <button type="submit" class="btn-prime">ENVIAR POSTULACIÓN</button>
             </form>
-            <p id="msgVacante" style="display:none; color: #25d366; margin-top: 10px; font-size: 0.8rem;">Postulación recibida. Revisaremos tus habilidades.</p>
         </div>
     </section>
 
     <section id="encuesta">
+        <h1>Mejora Continua</h1>
         <div class="card">
-            <span class="point-tag"></span>
-            <h3>Mejora Continua y Opinión de Clientes</h3>
-            <p style="font-size: 0.85rem;">Utilizamos la retroalimentación para aplicar el método de las 7M y optimizar nuestro Managing.</p>
+            <h2>Evaluación del Servicio</h2>
             <form id="formEncuesta">
                 <select id="satisfaccion">
-                    <option>¿Cómo califica la calidad del servicio?</option>
-                    <option>Excelente - 100%</option>
-                    <option>Satisfecho - 80%</option>
-                    <option>Regular - 50%</option>
+                    <option>Excelente (100%)</option>
+                    <option>Bueno (80%)</option>
                 </select>
-                <textarea id="comentario" placeholder="Tu opinión es vital para nuestra mejora continua..." required></textarea>
-                <button type="button" onclick="enviarEncuesta()" style="background: var(--c-nosotros); color:white; padding: 10px; width: 100%;">ENVIAR COMENTARIOS</button>
+                <textarea placeholder="¿Cómo podemos mejorar?"></textarea>
+                <button type="button" onclick="enviarEncuesta()" class="btn-prime">ENVIAR FEEDBACK</button>
             </form>
         </div>
     </section>
 
-    <div class="wa-float" onclick="toggleChat()"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35"></div>
+    <div class="wa-float" onclick="toggleChat()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35">
+    </div>
     <div class="chat-box" id="chatWindow">
-        <div class="chat-header">Digital Transport Bot</div>
+        <div class="chat-header">DIGITAL TRANSPORT // ASISTENTE</div>
         <div class="chat-body" id="chatMsgs">
-            <div class="msg bot">¡Hola! Soy el encargado de Calidad. ¿Quieres saber sobre nuestras 7M o el mantenimiento?</div>
+            <div class="msg bot">¡Hola! Soy el asistente de Calidad. ¿Deseas saber sobre <strong>Rutas, Inventario o Programa de Producción</strong>?</div>
         </div>
         <div class="chat-footer">
-            <input type="text" id="chatInput" placeholder="Escribe aquí..."><button onclick="enviarChat()">></button>
+            <input type="text" id="chatInput" placeholder="Escribe tu duda...">
+            <button onclick="enviarChat()">></button>
         </div>
     </div>
 
     <script>
+        // NAVEGACIÓN
         function showSection(id) {
             document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             window.scrollTo(0,0);
         }
 
-        function enviarEncuesta() { alert("¡Gracias! Tu retroalimentación ha sido registrada."); document.getElementById('formEncuesta').reset(); }
-        
-        function toggleChat() { const win = document.getElementById('chatWindow'); win.style.display = (win.style.display === 'flex') ? 'none' : 'flex'; }
+        // CHAT LOGIC
+        function toggleChat() {
+            const win = document.getElementById('chatWindow');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        }
 
         function enviarChat() {
             const input = document.getElementById('chatInput');
             const box = document.getElementById('chatMsgs');
             if(!input.value.trim()) return;
 
-            // Mensaje del usuario
             box.innerHTML += `<div class="msg user">${input.value}</div>`;
-            const query = input.value.toLowerCase();
+            const q = input.value.toLowerCase();
             input.value = "";
-            box.scrollTop = box.scrollHeight;
 
-            // Respuesta inteligente del bot
             setTimeout(() => {
-                let reply = "";
-                if (query.includes("hola")) reply = "¡Hola! Bienvenido. ¿En qué puedo ayudarte?";
-                else if (query.includes("7m")) reply = "Las 7M son: Materia Prima, Mano de Obra, Método, Máquinas, Medio Ambiente, Medición y Managing.";
-                else if (query.includes("mantenimiento")) reply = "Hacemos mantenimiento preventivo diario a las 3:00 AM.";
-                else if (query.includes("vacante") || query.includes("trabajo")) reply = "¡Sí! Busca la sección de Vacantes en el menú para postularte.";
-                else if (query.includes("ruta")) reply = "Mapeamos Ruta Violeta, SITT y Taxis Blancos.";
-                else reply = "No estoy seguro de eso, pero puedes revisar nuestras secciones de Producción y Calidad.";
-
-                box.innerHTML += `<div class="msg bot">${reply}</div>`;
+                let r = "No estoy seguro, pero puedes consultar sobre Rutas, Inventario (8.8) o Programa (8.12).";
+                if(q.includes("inventario") || q.includes("8.8")) r = "Se gestionan activos en AWS y créditos de Maps con puntos de reorden al 85% y 20% respectivamente.";
+                if(q.includes("programa") || q.includes("8.12")) r = "El programa de producción dura 7 semanas, culminando con el lanzamiento el 15 de abril.";
+                if(q.includes("ruta")) r = "Mapeamos Ruta Violeta y SITT con precisión satelital.";
+                
+                box.innerHTML += `<div class="msg bot">${r}</div>`;
                 box.scrollTop = box.scrollHeight;
-            }, 800);
+            }, 600);
         }
 
-        // Enviar con Enter
-        document.getElementById('chatInput').addEventListener("keypress", function(e) {
-            if (e.key === "Enter") enviarChat();
-        });
+        function enviarEncuesta() { alert("Reporte enviado a Calidad."); }
     </script>
 </body>
 </html>
