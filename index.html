@@ -15,6 +15,7 @@
         --c-contacto: #ef4444; 
         --c-soporte: #8b5cf6; 
         --c-publicaciones: #ec4899;
+        --wa-green: #25d366;
     }
 
     body { margin:0; font-family:'Inter', sans-serif; background:#f4f6f8; color: #333; overflow-x: hidden; }
@@ -34,7 +35,6 @@
         font-size: 0.7rem; font-weight: 800; text-transform: uppercase; transition: 0.3s;
     }
 
-    /* COLORES DE BOTONES CORREGIDOS */
     .btn-inicio { background: var(--c-inicio); }
     .btn-rutas { background: var(--c-app); } 
     .btn-nosotros { background: var(--c-nosotros); } 
@@ -61,7 +61,6 @@
     .home-info { max-width: 900px; margin: 40px auto; padding: 0 20px; text-align: center; line-height: 1.6; }
     .home-info h2 { color: var(--dark); font-size: 2rem; }
 
-    /* ESTILOS NUEVOS PARA BOTONES DE DESCARGA */
     .download-buttons {
         display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap;
     }
@@ -102,6 +101,19 @@
     .price-tag { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid #f0f0f0; padding-top: 10px; }
     .btn-map { background: var(--primary); color: white; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: bold; }
 
+    /* ====== ESTILOS WHATSAPP AGREGADOS ====== */
+    .wa-float { position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: var(--wa-green); border-radius: 22px; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); transition: 0.3s; }
+    .wa-float:hover { transform: scale(1.1); }
+    .chat-box { position: fixed; bottom: 105px; right: 25px; width: 340px; height: 450px; background: #e5ddd5; border-radius: 25px; display: none; flex-direction: column; z-index: 2000; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.1); }
+    .chat-header { background: #075e54; color: white; padding: 15px; font-weight: bold; font-size: 0.9rem; }
+    .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .msg { padding: 10px 14px; border-radius: 15px; font-size: 0.85rem; max-width: 80%; }
+    .bot { background: white; align-self: flex-start; }
+    .user { background: #dcf8c6; align-self: flex-end; }
+    .chat-footer { padding: 10px; background: #f0f0f0; display: flex; gap: 8px; }
+    .chat-footer input { flex: 1; border: none; border-radius: 20px; padding: 10px 15px; outline: none; }
+    .chat-footer button { background: #075e54; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+
     footer { background: var(--dark); color: white; text-align: center; padding: 20px; margin-top: 50px; }
 </style>
 </head>
@@ -112,14 +124,14 @@
         <img src="taxi.jpg" alt="Logo"> DIGITAL TRANSPORT
     </div>
     <div class="menu-links">
-        <a href="index.html" class="btn-inicio" onclick="showSection('home')">Inicio</a>
+        <a href="#" class="btn-inicio" onclick="showSection('home')">Inicio</a>
         <a href="nosotros.html" class="btn-nosotros">Nosotros</a>
-        <a href="app.html" class="btn-rutas" onclick="showSection('rutas')">APP</a>
+        <a href="#" class="btn-rutas" onclick="showSection('rutas')">APP</a>
         <a href="soporte.html" class="btn-soporte">Soporte</a>
         <a href="publicaciones.html" class="btn-publi">Publicaciones</a>
-        <a href="acercade.html" >acerca de</a>
+        <a href="acercade.html">Acerca de</a>
         <a href="contacto.html" class="btn-contacto">Contacto</a>
-        <a href="produccion.html" >Digital trasport</a>
+        <a href="produccion.html">Digital transport</a>
     </div>
 </nav>
 
@@ -145,7 +157,7 @@
                     <div class="btn-store-text"><span>Download on</span><strong>Google Play</strong></div>
                 </a>
                 <a href="#" class="btn-store">
-                    <img src="ios.png" alt="iOS" style="filter: invert(1);">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="iOS" style="filter: invert(1);">
                     <div class="btn-store-text"><span>Download on</span><strong>App Store</strong></div>
                 </a>
             </div>
@@ -155,7 +167,6 @@
     <div class="home-info">
         <h2>¿Cansado de esperar sin saber cuándo llegará el transporte?</h2>
         <p>Digital Transport es la solución inteligente en Tijuana. Planifica tu trayecto y evita perder tiempo. Con nuestra plataforma puedes conocer tiempos de llegada, costos aproximados y hasta saber si el transporte viene lleno, todo desde tu celular.</p>
-        <p>Nuestra misión es modernizar la forma en que te mueves por la ciudad, brindando seguridad y eficiencia en cada viaje.</p>
     </div>
 </div>
 
@@ -236,6 +247,21 @@
     </div>
 </div>
 
+<div class="wa-float" onclick="toggleChat()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35">
+</div>
+
+<div class="chat-box" id="chatWindow">
+    <div class="chat-header">DIGITAL TRANSPORT // ASISTENTE</div>
+    <div class="chat-body" id="chatMsgs">
+        <div class="msg bot">¡Hola! Soy el asistente de Calidad. ¿En qué puedo ayudarte hoy? (Rutas, Costos, Vacantes)</div>
+    </div>
+    <div class="chat-footer">
+        <input type="text" id="chatInput" placeholder="Escribe aquí...">
+        <button onclick="enviarChat()">></button>
+    </div>
+</div>
+
 <footer>
     <p>Digital Transport © 2026 - Misión de San Javier, Tijuana.</p>
 </footer>
@@ -255,16 +281,34 @@
             card.classList.toggle('hidden', !keywords.includes(input));
         });
     }
+
+    // LÓGICA DEL CHATBOT AGREGADA
+    function toggleChat() {
+        const win = document.getElementById('chatWindow');
+        win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    function enviarChat() {
+        const input = document.getElementById('chatInput');
+        const box = document.getElementById('chatMsgs');
+        if(!input.value.trim()) return;
+
+        box.innerHTML += `<div class="msg user">${input.value}</div>`;
+        const q = input.value.toLowerCase();
+        input.value = "";
+        box.scrollTop = box.scrollHeight;
+
+        setTimeout(() => {
+            let r = "Lo siento, no entiendo. Prueba con 'Rutas', 'Costos' o 'Vacantes'.";
+            if(q.includes("ruta")) r = "Tenemos rutas para UABC, Playas, 5 y 10 y más. ¡Búscalas en la sección APP!";
+            if(q.includes("costo") || q.includes("precio")) r = "La tarifa promedio es de $15.00 a $18.00 pesos.";
+            if(q.includes("vacante") || q.includes("trabajo") || q.includes("empleo")) r = "¡Estamos contratando! Necesitamos abogados y contadores para el equipo.";
+            
+            box.innerHTML += `<div class="msg bot">${r}</div>`;
+            box.scrollTop = box.scrollHeight;
+        }, 600);
+    }
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
