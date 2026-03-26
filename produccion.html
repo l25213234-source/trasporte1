@@ -30,24 +30,23 @@
         .menu-links a { color: var(--white); text-decoration: none; padding: 10px 18px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; transition: 0.3s; margin-left: 8px; cursor: pointer; }
         .menu-links a:hover { background: var(--brand); transform: translateY(-2px); }
 
-        /* SECCIONES ANIMADAS */
+        /* LÓGICA DE SECCIONES */
         section { display: none; padding: 60px 5%; max-width: 1100px; margin: 0 auto; min-height: 80vh; }
-        section.active { display: block; animation: fadeIn 0.6s ease forwards; }
+        section.active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .card { background: var(--white); padding: 35px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 30px; border: 1px solid #f1f5f9; position: relative; overflow: hidden; }
         .point-tag { background: var(--brand); color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; margin-bottom: 15px; display: inline-block; text-transform: uppercase; }
 
-        /* TABLAS Y GANTT */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
-        th { background: #f1f5f9; padding: 12px; text-align: left; border-bottom: 2px solid #e2e8f0; }
-        td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
-        .gantt-bar { height: 12px; background: var(--brand); border-radius: 6px; }
+        /* DIAGRAMA */
+        .blueprint-flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .step-node { background: #f8fafc; border: 2px solid #e2e8f0; padding: 25px; border-radius: 20px; text-align: center; transition: 0.3s; }
+        .step-node:hover { border-color: var(--brand); transform: translateY(-5px); }
 
         /* WHATSAPP BOT */
         .wa-float { position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: var(--wa-green); border-radius: 22px; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 2000; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); transition: 0.3s; }
         .chat-box { position: fixed; bottom: 105px; right: 25px; width: 340px; height: 500px; background: #e5ddd5; border-radius: 25px; display: none; flex-direction: column; z-index: 2000; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
-        .chat-header { background: #075e54; color: white; padding: 20px; font-weight: 800; font-size: 0.9rem; }
+        .chat-header { background: #075e54; color: white; padding: 20px; font-weight: 800; }
         .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
         .msg { padding: 12px 16px; border-radius: 18px; font-size: 0.85rem; max-width: 85%; }
         .bot { background: white; align-self: flex-start; }
@@ -56,8 +55,8 @@
         .chat-footer input { flex: 1; border: none; border-radius: 25px; padding: 12px 20px; outline: none; }
         .chat-footer button { background: #075e54; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
 
-        input, select, textarea { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; }
-        .btn-prime { background: var(--brand); color: white; padding: 15px; width: 100%; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; transition: 0.3s; }
+        .btn-prime { background: var(--brand); color: white; padding: 15px; width: 100%; border-radius: 12px; font-size: 1rem; border: none; cursor: pointer; transition: 0.3s; font-weight: 800; }
+        input, select, textarea { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; box-sizing: border-box; }
     </style>
 </head>
 <body>
@@ -65,181 +64,115 @@
     <nav>
         <div class="logo"><img src="taxi.jpg"> DIGITAL <span>TRANSPORT</span></div>
         <div class="menu-links">
-            <a onclick="showSection('produccion')">Producción</a>
-            <a onclick="showSection('inventario')">Inventario (8.8)</a>
-            <a onclick="showSection('programa')">Programa (8.12)</a>
-            <a onclick="showSection('vacantes')">Vacantes</a>
+            <a onclick="showSection('produccion')">Procesos</a>
+            <a onclick="showSection('vacantes')" style="background: rgba(255,255,255,0.1);">Bolsa de Trabajo</a>
             <a onclick="showSection('encuesta')">Calidad</a>
         </div>
     </nav>
 
     <section id="produccion" class="active">
-        <h1 style="text-align: center;">Ingeniería de Producción</h1>
+        <header style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem; margin: 0; color: var(--dark);">Ingeniería de Producción</h1>
+            <p style="color: #64748b;">Estrategia tecnológica y operativa del servicio</p>
+        </header>
+
         <div class="card">
-            <span class="point-tag">Puntos 1-3</span>
-            <h2>Especificación Técnica</h2>
-            <p>Se ofrece un servicio de mapeo dinámico basado en <strong>Cloud Computing</strong>. Se procesan datos de la Ruta Violeta y SITT mediante algoritmos de navegación para entregar tiempos de arribo exactos.</p>
-        </div>
-        <div class="card">
-            <span class="point-tag">Punto 5 y 6</span>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div>
-                    <h3>Materia Prima</h3>
-                    <ul style="font-size: 0.85rem;">
-                        <li>Coordenadas GPS IMOS.</li>
-                        <li>Base de datos de paradas.</li>
-                        <li>Tarifarios municipales.</li>
-                    </ul>
+            <h2>Especificación y Estrategia Técnica</h2>
+            <p><strong>Servicio:</strong> Mapeo dinámico de transporte público en Tijuana. <br>
+            <strong>Tecnología:</strong> Infraestructura AWS y Google Maps API.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                <div style="background: #fff8eb; padding: 20px; border-radius: 15px; border-left: 5px solid var(--accent);">
+                    <small style="font-weight: 800; color: var(--accent);">MANTENIMIENTO PREVENTIVO</small>
+                    <p style="font-size: 0.8rem; margin: 5px 0 0;">Revisión de servidores y actualización de rutas cada 24 horas.</p>
                 </div>
-                <div>
-                    <h3>Proveedores</h3>
-                    <ul style="font-size: 0.85rem;">
-                        <li>AWS (Servidores).</li>
-                        <li>Google Enterprise (Mapas).</li>
-                    </ul>
+                <div style="background: #f0fdf4; padding: 20px; border-radius: 15px; border-left: 5px solid var(--wa-green);">
+                    <small style="font-weight: 800; color: var(--wa-green);">ESTRATEGIA DE CALIDAD</small>
+                    <p style="font-size: 0.8rem; margin: 5px 0 0;">Gestión mediante el método 7M para garantizar eficiencia operativa.</p>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section id="inventario">
-        <h1>Control de Inventarios</h1>
         <div class="card">
-            <span class="point-tag">Punto 8.8</span>
-            <h2>Gestión de Recursos Digitales</h2>
-            <p style="font-size: 0.9rem;">Se establece un control estricto sobre los activos digitales para garantizar la continuidad del servicio.</p>
-            <table>
-                <tr>
-                    <th>Activo (Insumo)</th>
-                    <th>Punto de Reorden</th>
-                    <th>Cantidad Mínima</th>
-                </tr>
-                <tr>
-                    <td>Almacenamiento AWS</td>
-                    <td>85% de capacidad</td>
-                    <td>500 GB Libres</td>
-                </tr>
-                <tr>
-                    <td>Créditos API Maps</td>
-                    <td>20% saldo restante</td>
-                    <td>5,000 Peticiones</td>
-                </tr>
-                <tr>
-                    <td>Licencias SSL</td>
-                    <td>30 días antes de vencer</td>
-                    <td>1 Licencia activa</td>
-                </tr>
-            </table>
-            <p style="font-size: 0.8rem; margin-top: 15px; color: #64748b;">* El reabastecimiento se gestiona mediante requisiciones automáticas a proveedores registrados.</p>
-        </div>
-    </section>
-
-    <section id="programa">
-        <h1>Programa de Producción</h1>
-        <div class="card">
-            <span class="point-tag">Punto 8.12.1</span>
-            <h2>Cronograma de Actividades</h2>
-            <table>
-                <tr>
-                    <th>Actividad</th>
-                    <th>Responsable</th>
-                    <th>Periodo</th>
-                </tr>
-                <tr>
-                    <td>Levantamiento de Datos</td>
-                    <td>Analistas de Campo</td>
-                    <td>Semana 1-2</td>
-                </tr>
-                <tr>
-                    <td>Mapeo y Programación</td>
-                    <td>Ing. de Software</td>
-                    <td>Semana 3-5</td>
-                </tr>
-                <tr>
-                    <td>Pruebas de Calidad</td>
-                    <td>Equipo QA</td>
-                    <td>Semana 6</td>
-                </tr>
-                <tr>
-                    <td><strong>Lanzamiento</strong></td>
-                    <td>Dirección General</td>
-                    <td><strong>Semana 7</strong></td>
-                </tr>
-            </table>
-        </div>
-        <div class="card">
-            <span class="point-tag">Punto 8.12.2</span>
-            <h2>Gráfica de Gantt (Visual)</h2>
-            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-                <div>
-                    <small>Fase 1: Recolección</small>
-                    <div style="width: 30%;" class="gantt-bar"></div>
-                </div>
-                <div>
-                    <small>Fase 2: Desarrollo</small>
-                    <div style="width: 60%; margin-left: 20%;" class="gantt-bar" style="background: var(--accent);"></div>
-                </div>
-                <div>
-                    <small>Fase 3: Calidad y Arranque</small>
-                    <div style="width: 20%; margin-left: 80%;" class="gantt-bar" style="background: var(--wa-green);"></div>
-                </div>
+            <h2>Diagrama de Flujo de Producción</h2>
+            <div class="blueprint-flow">
+                <div class="step-node"><strong>1. ENTRADA</strong><p>Captura de coordenadas GPS e información de IMOS.</p></div>
+                <div class="step-node" style="border-style: dashed; border-color: var(--brand);"><strong>2. PROCESO</strong><p>Mapeo digital y algoritmos en la nube.</p></div>
+                <div class="step-node"><strong>3. SALIDA</strong><p>App actualizada para el usuario final.</p></div>
             </div>
         </div>
     </section>
 
     <section id="vacantes">
-        <h1>Bolsa de Trabajo</h1>
         <div class="card" style="background: var(--dark); color: white;">
-            <h2>Únete al Equipo</h2>
+            <h2 style="margin: 0;">Bolsa de Trabajo: Mano de Obra</h2>
+            <p style="opacity: 0.8;">Buscamos talento para expandir nuestra infraestructura legal y técnica.</p>
             <form id="formVacante">
                 <input type="text" placeholder="Nombre completo" required>
-                <select style="color: #333;">
-                    <option>Analista de Datos</option>
-                    <option>Programador Web</option>
+                <select required style="color: #333;">
+                    <option value="">Selecciona tu especialidad</option>
+                    <option>Analista de Datos de Transporte</option>
+                    <option>Programador Web / Móvil</option>
+                    <option>Contador (Finanzas Digitales)</option>
+                    <option>Abogado (Derecho de Transportes/Corporativo)</option>
+                    <option>Cartógrafo Digital</option>
+                    <option>Especialista en Recursos Humanos</option>
+                    <option>Asesor Legal (IMOS y Normatividad)</option>
                 </select>
-                <button type="submit" class="btn-prime">ENVIAR POSTULACIÓN</button>
+                <button type="submit" class="btn-prime">POSTULARSE AHORA</button>
             </form>
+            <div id="msgVacante" style="display:none; color: var(--wa-green); font-weight: bold; margin-top: 15px; text-align: center;">✓ ¡Candidatura recibida en el sistema!</div>
         </div>
     </section>
 
     <section id="encuesta">
-        <h1>Mejora Continua</h1>
         <div class="card">
-            <h2>Evaluación del Servicio</h2>
+            <h2>Mejora Continua: Opinión del Cliente</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Tu retroalimentación nos ayuda a perfeccionar la calidad del servicio.</p>
             <form id="formEncuesta">
                 <select id="satisfaccion">
                     <option>Excelente (100%)</option>
-                    <option>Bueno (80%)</option>
+                    <option>Buena (80%)</option>
+                    <option>Regular (50%)</option>
                 </select>
-                <textarea placeholder="¿Cómo podemos mejorar?"></textarea>
-                <button type="button" onclick="enviarEncuesta()" class="btn-prime">ENVIAR FEEDBACK</button>
+                <textarea id="comentario" rows="3" placeholder="¿Cómo podemos mejorar?" required></textarea>
+                <button type="button" onclick="enviarEncuesta()" class="btn-prime" style="background: var(--dark);">ENVIAR EVALUACIÓN</button>
             </form>
         </div>
     </section>
 
-    <div class="wa-float" onclick="toggleChat()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35">
-    </div>
+    <div class="wa-float" onclick="toggleChat()"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35"></div>
     <div class="chat-box" id="chatWindow">
-        <div class="chat-header">DIGITAL TRANSPORT // ASISTENTE</div>
+        <div class="chat-header">DIGITAL TRANSPORT // BOT</div>
         <div class="chat-body" id="chatMsgs">
-            <div class="msg bot">¡Hola! Soy el asistente de Calidad. ¿Deseas saber sobre <strong>Rutas, Inventario o Programa de Producción</strong>?</div>
+            <div class="msg bot">¡Hola! Soy el asistente de Calidad. ¿En qué puedo ayudarte hoy?</div>
         </div>
         <div class="chat-footer">
-            <input type="text" id="chatInput" placeholder="Escribe tu duda...">
-            <button onclick="enviarChat()">></button>
+            <input type="text" id="chatInput" placeholder="Escribe aquí..."><button onclick="enviarChat()">></button>
         </div>
     </div>
 
     <script>
-        // NAVEGACIÓN
+        // LÓGICA DE NAVEGACIÓN
         function showSection(id) {
             document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             window.scrollTo(0,0);
         }
 
-        // CHAT LOGIC
+        // FORMULARIOS
+        document.getElementById('formVacante').onsubmit = function(e) {
+            e.preventDefault();
+            document.getElementById('msgVacante').style.display = 'block';
+            this.reset();
+        };
+
+        function enviarEncuesta() {
+            alert("¡Gracias! Tu reporte ha sido enviado al departamento de Calidad.");
+            document.getElementById('formEncuesta').reset();
+        }
+
+        // CHATBOT
         function toggleChat() {
             const win = document.getElementById('chatWindow');
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
@@ -253,19 +186,17 @@
             box.innerHTML += `<div class="msg user">${input.value}</div>`;
             const q = input.value.toLowerCase();
             input.value = "";
+            box.scrollTop = box.scrollHeight;
 
             setTimeout(() => {
-                let r = "No estoy seguro, pero puedes consultar sobre Rutas, Inventario (8.8) o Programa (8.12).";
-                if(q.includes("inventario") || q.includes("8.8")) r = "Se gestionan activos en AWS y créditos de Maps con puntos de reorden al 85% y 20% respectivamente.";
-                if(q.includes("programa") || q.includes("8.12")) r = "El programa de producción dura 7 semanas, culminando con el lanzamiento el 15 de abril.";
-                if(q.includes("ruta")) r = "Mapeamos Ruta Violeta y SITT con precisión satelital.";
+                let r = "Interesante. ¿Deseas saber sobre Rutas, Vacantes o Calidad?";
+                if(q.includes("vacante") || q.includes("trabajo")) r = "Tenemos vacantes para Abogados, Contadores y Analistas. ¡Postúlate en la sección Bolsa de Trabajo!";
+                if(q.includes("ruta")) r = "Cubrimos Ruta Violeta, SITT y más.";
                 
                 box.innerHTML += `<div class="msg bot">${r}</div>`;
                 box.scrollTop = box.scrollHeight;
             }, 600);
         }
-
-        function enviarEncuesta() { alert("Reporte enviado a Calidad."); }
     </script>
 </body>
 </html>
